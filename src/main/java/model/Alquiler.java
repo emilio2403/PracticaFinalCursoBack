@@ -11,6 +11,7 @@ public class Alquiler {
     private LocalDateTime fin;
     private double coste;
     private Infraestructura infraestructura;
+    private Cliente cliente;
 
     @Id
     public long getId() {
@@ -53,5 +54,15 @@ public class Alquiler {
 
     public void setInfraestructura(Infraestructura infraestructura) {
         this.infraestructura = infraestructura;
+    }
+
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "alquileres")
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }
