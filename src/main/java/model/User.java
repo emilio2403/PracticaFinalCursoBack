@@ -12,7 +12,7 @@ public class User {
 
     private long id;
     private String nombre;
-    private String corre;
+    private String correo;
     private String contraseña;
     private String foto;
 

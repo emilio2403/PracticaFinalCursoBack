@@ -1,4 +1,4 @@
 package repository;
 
-public class AlquilerRepository {
+public interface AlquilerRepository {
 }

@@ -1,4 +1,4 @@
 package repository;
 
-public class Infraestructura {
+public interface Infraestructura {
 }
