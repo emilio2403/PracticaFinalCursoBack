@@ -1,4 +1,4 @@
 package repository;
 
-public class AdminRepository {
+public interface AdminRepository {
 }
