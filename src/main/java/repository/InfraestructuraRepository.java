@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface InfraestructuraRepository extends JpaRepository<Infraestructura, Long> {
     List<Infraestructura> findAllByTipo(String tipo);
-
 }
