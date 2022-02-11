@@ -1,5 +1,6 @@
 package model;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -34,6 +35,7 @@ public class Infraestructura {
         this.alquileres = alquileres;
     }
 
+    @Basic
     public String getTipo() {
         return tipo;
     }
@@ -42,6 +44,7 @@ public class Infraestructura {
         this.tipo = tipo;
     }
 
+    @Basic
     public String getFoto() {
         return foto;
     }
@@ -50,6 +53,7 @@ public class Infraestructura {
         this.foto = foto;
     }
 
+    @Basic
     public LocalDateTime getApertura() {
         return apertura;
     }
@@ -58,6 +62,7 @@ public class Infraestructura {
         this.apertura = apertura;
     }
 
+    @Basic
     public LocalDateTime getCierre() {
         return cierre;
     }
