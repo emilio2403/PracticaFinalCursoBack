@@ -22,6 +22,7 @@ public class Alquiler {
         this.id = id;
     }
 
+    @Basic
     public LocalDateTime getInicio() {
         return inicio;
     }
@@ -30,6 +31,7 @@ public class Alquiler {
         this.inicio = inicio;
     }
 
+    @Basic
     public LocalDateTime getFin() {
         return fin;
     }
@@ -38,6 +40,7 @@ public class Alquiler {
         this.fin = fin;
     }
 
+    @Basic
     public double getCoste() {
         return coste;
     }
