@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import model.Alquiler;
 import org.springframework.stereotype.Service;
 import repository.AlquilerRepository;
+
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -13,13 +15,12 @@ public class AlquilerService {
 
     private final AlquilerRepository repository;
 
-
     public Optional<List<Alquiler>> getAllAlquileres() {
         return Optional.of(repository.findAll());
     }
   
     public Optional<Alquiler> getAlquilerById(long id){
-        return repository.getAlquilerByCliente_Id(id);
+        return repository.findById(id);
     }
   
     public void deleteAlquilerById(long id){
