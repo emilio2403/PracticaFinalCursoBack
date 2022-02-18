@@ -36,6 +36,6 @@ public class InfraestructuraService {
     }
 
     public Optional<List<Infraestructura>> getInfraestucturaByTipo(String tipo){
-        return  Optional.of(repository.findAllByTipo(tipo));
+        return  repository.findAllByTipo(tipo);
     }
 }

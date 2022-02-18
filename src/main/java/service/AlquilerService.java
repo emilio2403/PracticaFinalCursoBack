@@ -30,7 +30,7 @@ public class AlquilerService {
         return Optional.of(repository.save(alquiler));
     }
   
-    public Optional<Alquiler> getAlquilerByClienteId(long id){
+    public Optional<List<Alquiler>> getAlquilerByClienteId(long id){
         return repository.getAlquilerByCliente_Id(id);
     }
 }
