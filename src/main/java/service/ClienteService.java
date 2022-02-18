@@ -1,11 +1,35 @@
 package service;
 
 import lombok.RequiredArgsConstructor;
+import model.Cliente;
 import org.springframework.stereotype.Service;
+import repository.ClienteRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ClienteService {
+    private final ClienteRepository repository;
 
-    private final ClienteService service;
+    public Optional<Cliente> findClientByEmail(String email) {
+        return repository.findByCorreo(email);
+    }
+
+    public Optional<Cliente> findClientById(Long id) {
+        return repository.findById(id);
+    }
+
+    public Optional<List<Cliente>> getAllClients() {
+        return Optional.of(repository.findAll());
+    }
+
+    public void deleteClientById(Long id) {
+        repository.deleteById(id);
+    }
+
+    public Optional<Cliente> postClient(Cliente cliente){
+        return Optional.of(repository.save(cliente));
+    }
 }
