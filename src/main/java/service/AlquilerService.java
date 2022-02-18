@@ -14,7 +14,6 @@ import java.util.Optional;
 public class AlquilerService {
 
     private final AlquilerRepository repository;
-
     public Optional<List<Alquiler>> getAllAlquileres() {
         return Optional.of(repository.findAll());
     }

@@ -3,6 +3,8 @@ package service;
 import lombok.RequiredArgsConstructor;
 import model.Infraestructura;
 import org.springframework.stereotype.Service;
+
+import repository.ClienteRepository;
 import repository.InfraestructuraRepository;
 
 import java.util.List;
@@ -13,7 +15,6 @@ import java.util.Optional;
 public class InfraestructuraService {
 
     private final InfraestructuraRepository repository;
-
     public Optional<List<Infraestructura>> getAllInfraestrucutura(){
         return Optional.of(repository.findAll());
     }

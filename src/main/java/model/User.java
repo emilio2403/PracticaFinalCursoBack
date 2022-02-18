@@ -12,8 +12,8 @@ public class User {
 
     private long id;
     private String nombre;
-    private String corre;
-    private String contraseña;
+    private String correo;
+    private String password;
     private String foto;
 
     @Id
@@ -35,21 +35,21 @@ public class User {
     }
 
     @Basic
-    public String getCorre() {
-        return corre;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setCorre(String corre) {
-        this.corre = corre;
+    public void setCorreo(String corre) {
+        this.correo = corre;
     }
 
     @Basic
-    public String getContraseña() {
-        return contraseña;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Basic

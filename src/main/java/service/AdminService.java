@@ -21,7 +21,7 @@ public class AdminService {
     public Optional<Admin> getAdminById(Long id){
         return repository.findById(id);
     }
-
+  
     public void deleteAdminById(Long id){
         repository.deleteById(id);
     }
