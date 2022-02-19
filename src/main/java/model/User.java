@@ -1,12 +1,7 @@
 package model;
 
-import lombok.NoArgsConstructor;
+import javax.persistence.*;
 
-import javax.persistence.Basic;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-
-@NoArgsConstructor
 @MappedSuperclass
 public class User {
 
@@ -15,6 +10,7 @@ public class User {
     private String correo;
     private String password;
     private String foto;
+    private Login login;
 
     @Id
     public long getId() {
@@ -59,5 +55,14 @@ public class User {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    @Embedded
+    public Login getLogin() {
+        return login;
+    }
+
+    public void setLogin(Login login) {
+        this.login = login;
     }
 }
