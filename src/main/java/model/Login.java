@@ -2,17 +2,17 @@ package model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-@Entity
-@Table(name="login")
+@Embeddable
 public class Login {
-    private long id;
+    private UUID id;
     private LocalDateTime fecha;
     private String token;
 
 
-    public Login(long id, LocalDateTime fecha, String token) {
-        this.id = id;
+    public Login( LocalDateTime fecha, String token) {
+        this.id = UUID.randomUUID();
         this.fecha = fecha;
         this.token = token;
     }
@@ -20,12 +20,13 @@ public class Login {
     public Login() {
 
     }
-    @Id
-    public long getId() {
+
+    @Basic
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
     @Basic
@@ -36,6 +37,7 @@ public class Login {
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
+
     @Basic
     public String getToken() {
         return token;

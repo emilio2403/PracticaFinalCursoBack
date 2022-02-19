@@ -16,6 +16,7 @@ public class Infraestructura {
     private String foto;
     private LocalDateTime apertura;
     private LocalDateTime cierre;
+    private String descripcion;
 
     @Id
     public long getId() {
@@ -69,5 +70,14 @@ public class Infraestructura {
 
     public void setCierre(LocalDateTime cierre) {
         this.cierre = cierre;
+    }
+
+    @Basic
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }
