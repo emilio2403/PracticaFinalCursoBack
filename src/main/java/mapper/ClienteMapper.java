@@ -4,7 +4,9 @@ import dto.ClienteDTO;
 import lombok.RequiredArgsConstructor;
 import model.Cliente;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class ClienteMapper {
 
