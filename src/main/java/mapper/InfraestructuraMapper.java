@@ -4,7 +4,9 @@ import dto.InfraestructuraDTO;
 import lombok.RequiredArgsConstructor;
 import model.Infraestructura;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class InfraestructuraMapper {
 

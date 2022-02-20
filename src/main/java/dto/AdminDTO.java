@@ -1,5 +1,7 @@
 package dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class AdminDTO {
 
     private long id;
@@ -8,6 +10,7 @@ public class AdminDTO {
     private String password;
     private String foto;
 
+    @NotBlank(message="Id no puede estar vacío")
     public long getId() {
         return this.id;
     }
