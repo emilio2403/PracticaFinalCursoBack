@@ -1,6 +1,7 @@
 package application.controller;
 
 import application.dto.AdminDTO;
+import application.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import application.mapper.AdminMapper;
 import application.model.Admin;
@@ -17,12 +18,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminController {
 
-    private final AdminService service;
+    private final AdminRepository repository;
     private final AdminMapper mapper;
 
     @GetMapping("/all")
     public ResponseEntity<List<AdminDTO>> getAllAdmin(){
-        Optional<List<Admin>> admins=service.getAllAdmin();
+        Optional<List<Admin>> admins=Optional.of(repository.findAll());
         if(admins.isPresent()){
             return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTOList(admins.get()));
         }else{
@@ -30,14 +31,9 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/prueba")
-    public ResponseEntity<String> prueba(){
-        return ResponseEntity.status(HttpStatus.OK).body("Prueba");
-    }
-
     @PostMapping("/post")
     public ResponseEntity<AdminDTO> postAdmin(@RequestBody AdminDTO admin){
-        Optional<Admin> adminPost=service.postAdmin(mapper.fromDTO(admin));
+        Optional<Admin> adminPost=Optional.of(repository.insert(mapper.fromDTO(admin)));
         if(adminPost.isPresent()){
             return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDTO(adminPost.get()));
         }else{
@@ -48,7 +44,7 @@ public class AdminController {
     @DeleteMapping("/delete")
     public ResponseEntity<Admin> deleteAdmin(@RequestParam(name="id",required=true) long id){
         try{
-            service.deleteAdminById(id);
+            repository.deleteById(id);
             return ResponseEntity.noContent().build();
         }catch(RuntimeException e){
             e.printStackTrace();
