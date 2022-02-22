@@ -19,11 +19,15 @@ public class AdminMapper {
         return mapper.map(admin,AdminDTO.class);
     }
 
-    public Admin toModel(AdminDTO dto){
+    public Admin fromDTO(AdminDTO dto){
         return mapper.map(dto, Admin.class);
     }
 
     public List<AdminDTO> toDTOList(List<Admin> admin){
         return admin.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    public List<Admin> fromDTO(List<AdminDTO> admin){
+        return admin.stream().map(this::fromDTO).collect(Collectors.toList());
     }
 }

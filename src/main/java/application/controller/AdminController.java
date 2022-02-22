@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminController {
 
@@ -36,7 +37,7 @@ public class AdminController {
 
     @PostMapping("/post")
     public ResponseEntity<AdminDTO> postAdmin(@RequestBody AdminDTO admin){
-        Optional<Admin> adminPost=service.postAdmin(mapper.toModel(admin));
+        Optional<Admin> adminPost=service.postAdmin(mapper.fromDTO(admin));
         if(adminPost.isPresent()){
             return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDTO(adminPost.get()));
         }else{
