@@ -14,7 +14,7 @@ public class AdminService {
 
     private final AdminRepository repository;
 
-    public Optional<List<Admin>> getAllAdmin(){
+    public Optional<List<Admin>> getAllAdmin() {
         return Optional.of(repository.findAll());
     }
 
