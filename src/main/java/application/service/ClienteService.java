@@ -1,9 +1,9 @@
 package application.service;
 
-import lombok.RequiredArgsConstructor;
 import application.model.Cliente;
-import org.springframework.stereotype.Service;
 import application.repository.ClienteRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +15,7 @@ public class ClienteService {
     private final ClienteRepository repository;
 
     public Optional<Cliente> findClientByEmail(String email) {
-        return repository.findByCorreo(email);
+        return repository.findByEmail(email);
     }
 
     public Optional<Cliente> findClientById(Long id) {
@@ -30,7 +30,7 @@ public class ClienteService {
         repository.deleteById(id);
     }
 
-    public Optional<Cliente> postClient(Cliente cliente){
+    public Optional<Cliente> postClient(Cliente cliente) {
         return Optional.of(repository.save(cliente));
     }
 }
