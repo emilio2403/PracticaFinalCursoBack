@@ -62,9 +62,9 @@ public class AlquilerControler {
 
     @PutMapping("/update")
     public ResponseEntity<AlquilerDTO> updateAlquiler(@RequestBody AlquilerDTO alquilerDTO){
-        Optional<Alquiler> alquilerPut = alquilerRepository.save(alquilerMapper.toModel(alquilerDTO));
+        Optional<Alquiler> alquilerPut = Optional.of(alquilerRepository.save(alquilerMapper.toModel(alquilerDTO)));
         if (alquilerPut.isPresent()){
-            return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTO(alquilerPut));
+            return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTO(alquilerPut.get()));
         }else{
             return ResponseEntity.badRequest().build();
         }
