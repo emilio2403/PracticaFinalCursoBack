@@ -6,11 +6,11 @@ public class AdminDTO {
 
     private long id;
     private String nombre;
-    private String corre;
+    private String email;
     private String password;
     private String foto;
 
-    @NotBlank(message="Id no puede estar vacío")
+    @NotBlank(message = "Id no puede estar vacío")
     public long getId() {
         return this.id;
     }
@@ -27,12 +27,12 @@ public class AdminDTO {
         this.nombre = nombre;
     }
 
-    public String getCorre() {
-        return this.corre;
+    public String getEmail() {
+        return this.email;
     }
 
-    public void setCorre(String corre) {
-        this.corre = corre;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
