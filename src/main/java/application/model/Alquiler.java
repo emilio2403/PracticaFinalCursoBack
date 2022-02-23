@@ -2,11 +2,12 @@ package application.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 public class Alquiler {
 
-    private long id;
+    private UUID id;
     private LocalDateTime inicio;
     private LocalDateTime fin;
     private double coste;
@@ -14,11 +15,11 @@ public class Alquiler {
     private Cliente cliente;
 
     @Id
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    private void setId(UUID id) {
         this.id = id;
     }
 

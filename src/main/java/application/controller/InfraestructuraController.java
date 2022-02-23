@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/infraestructura")
@@ -31,23 +32,21 @@ public class InfraestructuraController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<InfraestructuraDTO> getInfraestructuraById(@RequestParam(name = "id",required = true) long id){
+    public ResponseEntity<InfraestructuraDTO> getInfraestructuraById(@RequestParam(name = "id", required = true) UUID id) {
         Optional<Infraestructura> estructura = repository.findById(id);
-        if(estructura.isPresent()){
+        if (estructura.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTO(estructura.get()));
-        }
-        else{
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/{tipo}")
-    public ResponseEntity<List<InfraestructuraDTO>> getInfraestructuraByTipo(@RequestParam(name = "tipo",required = true) String tipo){
+    public ResponseEntity<List<InfraestructuraDTO>> getInfraestructuraByTipo(@RequestParam(name = "tipo", required = true) String tipo) {
         Optional<List<Infraestructura>> estructura = repository.findAllByTipo(tipo);
-        if(estructura.isPresent()){
+        if (estructura.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTOList(estructura.get()));
-        }
-        else{
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
@@ -63,7 +62,7 @@ public class InfraestructuraController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Long> deleteInfraestructura(@RequestBody long id) {
+    public ResponseEntity<UUID> deleteInfraestructura(@RequestBody UUID id) {
         repository.deleteById(id);
         Optional<Infraestructura> estructura = repository.findById(id);
         if (estructura.isEmpty()) {
@@ -74,12 +73,11 @@ public class InfraestructuraController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<InfraestructuraDTO> updateInfaestructura(@RequestBody InfraestructuraDTO infraestructura){
+    public ResponseEntity<InfraestructuraDTO> updateInfaestructura(@RequestBody InfraestructuraDTO infraestructura) {
         Optional<InfraestructuraDTO> estructura = Optional.of(mapper.toDTO(repository.save(mapper.toModel(infraestructura))));
-        if(estructura.isPresent()){
+        if (estructura.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(estructura.get());
-        }
-        else {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
