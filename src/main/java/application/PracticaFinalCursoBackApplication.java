@@ -1,6 +1,5 @@
 package application;
 
-import application.model.Alquiler;
 import application.model.Cliente;
 import application.model.Infraestructura;
 import application.model.TipoPista;
@@ -14,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
@@ -26,35 +24,22 @@ public class PracticaFinalCursoBackApplication {
     }
 
     @Bean
-    public CommandLineRunner initUsers(ClienteRepository clienteRepository) {
-        List<Alquiler> lista = new ArrayList<>();
-        return args -> {
-            clienteRepository.deleteAll();
-            clienteRepository.save(
-                    new Cliente("Pepe", "pepe@gmail.com", "contraseña", "fotaza", lista)
-            );
-            clienteRepository.save(
-                    new Cliente("Miguel", "miguel@gmail.com", "contraseña", "fotaza", lista)
-            );
-            clienteRepository.save(
-                    new Cliente("Ana", "ana@gmail.com", "contraseña", "fotaza", lista)
-            );
-            clienteRepository.save(
-                    new Cliente("Vinicius", "vinicius@gmail.com", "contraseña", "fotaza", lista)
-            );
-        };
-    }
-
-    @Bean
-    public CommandLineRunner initProductos(InfraestructuraRepository repository) {
+    public CommandLineRunner initDatos(InfraestructuraRepository repository, ClienteRepository clienteRepository) {
         return (args) -> {
             repository.deleteAll();
+            clienteRepository.deleteAll();
+            
             repository.save(new Infraestructura(new ArrayList<>(), TipoPista.BALONCESTO.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
             repository.save(new Infraestructura(new ArrayList<>(), TipoPista.TENIS.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
             repository.save(new Infraestructura(new ArrayList<>(), TipoPista.VOLEY.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
             repository.save(new Infraestructura(new ArrayList<>(), TipoPista.FUTBOL.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
             repository.save(new Infraestructura(new ArrayList<>(), TipoPista.FUTBOLSALA.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
             repository.save(new Infraestructura(new ArrayList<>(), TipoPista.PADEL.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
+
+            clienteRepository.save(new Cliente("Ansufati", "ansufati@gmail.com", "contraseña", "fotaza", new ArrayList<>()));
+            clienteRepository.save(new Cliente("Obama", "obama@gmail.com", "contraseña", "fotaza", new ArrayList<>()));
+            clienteRepository.save(new Cliente("Greta Thunberg", "salvaanimales@gmail.com", "contraseña", "fotaza", new ArrayList<>()));
+            clienteRepository.save(new Cliente("Vinicius", "vinicius@gmail.com", "contraseña", "fotaza", new ArrayList<>()));
         };
     }
 }
