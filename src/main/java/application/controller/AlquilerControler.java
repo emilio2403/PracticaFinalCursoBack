@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/alquiler")
@@ -31,7 +32,7 @@ public class AlquilerControler {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<AlquilerDTO>> getAlquilerByClienteId(@RequestParam(name = "id", required = true) long id) {
+    public ResponseEntity<List<AlquilerDTO>> getAlquilerByClienteId(@RequestParam(name = "id", required = true) UUID id) {
         Optional<List<Alquiler>> alquilerById = alquilerRepository.getAlquilerByCliente_Id(id);
         if (alquilerById.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTOList(alquilerById.get()));
@@ -51,7 +52,7 @@ public class AlquilerControler {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Long> deleteAlquiler(@RequestParam(name = "id", required = true) long id) {
+    public ResponseEntity<Long> deleteAlquiler(@RequestParam(name = "id", required = true) UUID id) {
         alquilerRepository.deleteById(id);
         Optional<Alquiler> alquiler = alquilerRepository.findById(id);
         if (alquiler.isPresent()) {

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/cliente")
@@ -27,7 +28,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClienteDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<ClienteDTO> findById(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.FOUND)
                 .body(mapper.toDTO(clienteRepository.findById(id).orElseThrow()));
     }
@@ -52,7 +53,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ClienteDTO> delete(@PathVariable Long id) {
+    public ResponseEntity<ClienteDTO> delete(@PathVariable UUID id) {
         Cliente cliente = clienteRepository.findById(id).orElse(null);
         if (cliente != null) {
             clienteRepository.delete(cliente);

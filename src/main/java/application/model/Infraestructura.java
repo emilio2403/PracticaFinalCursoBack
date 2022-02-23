@@ -6,11 +6,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Infraestructura {
 
-    private long id;
+    private UUID id;
     private List<Alquiler> alquileres;
     private String tipo;
     private String foto;
@@ -28,11 +29,11 @@ public class Infraestructura {
     }
 
     @Id
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    private void setId(UUID id) {
         this.id = id;
     }
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/admin")
@@ -41,7 +42,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Admin> deleteAdmin(@RequestParam(name = "id", required = true) long id) {
+    public ResponseEntity<Admin> deleteAdmin(@RequestParam(name = "id", required = true) UUID id) {
         try {
             repository.deleteById(id);
             return ResponseEntity.noContent().build();
