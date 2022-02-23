@@ -18,6 +18,15 @@ public class Infraestructura {
     private LocalDateTime cierre;
     private String descripcion;
 
+    public Infraestructura(List<Alquiler> alquileres, String tipo, String foto, LocalDateTime apertura, LocalDateTime cierre, String descripcion) {
+        this.alquileres = alquileres;
+        this.tipo = tipo;
+        this.foto = foto;
+        this.apertura = apertura;
+        this.cierre = cierre;
+        this.descripcion = descripcion;
+    }
+
     @Id
     public long getId() {
         return id;
