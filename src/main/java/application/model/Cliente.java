@@ -1,16 +1,23 @@
 package application.model;
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.List;
 
 @Entity
-public class Cliente extends User{
+@NoArgsConstructor
+public class Cliente extends User {
 
     private List<Alquiler> alquileres;
 
-    @OneToMany(cascade= CascadeType.ALL)
+    public Cliente(String nombre, String correo, String password, String foto, List<Alquiler> alquileres) {
+        super(nombre, correo, password, foto);
+    }
+
+    @OneToMany(cascade = CascadeType.ALL)
     public List<Alquiler> getAlquileres() {
         return alquileres;
     }
