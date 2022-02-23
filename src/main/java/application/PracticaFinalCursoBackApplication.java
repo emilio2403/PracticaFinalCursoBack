@@ -2,18 +2,19 @@ package application;
 
 import application.model.Alquiler;
 import application.model.Cliente;
-import application.repository.ClienteRepository;
 import application.model.Infraestructura;
 import application.model.TipoPista;
+import application.repository.ClienteRepository;
 import application.repository.InfraestructuraRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import java.util.List;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
@@ -54,7 +55,6 @@ public class PracticaFinalCursoBackApplication {
             repository.save(new Infraestructura(new ArrayList<>(), TipoPista.FUTBOL.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
             repository.save(new Infraestructura(new ArrayList<>(), TipoPista.FUTBOLSALA.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
             repository.save(new Infraestructura(new ArrayList<>(), TipoPista.PADEL.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
-            };
-       }
+        };
     }
 }
