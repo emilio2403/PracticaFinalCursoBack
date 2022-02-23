@@ -2,21 +2,22 @@ package application.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public class InfraestructuraDTO {
 
-    private long id;
+    private UUID id;
     private List<AlquilerDTO> alquileres;
     private String tipo;
     private String foto;
     private LocalDateTime apertura;
     private LocalDateTime cierre;
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
