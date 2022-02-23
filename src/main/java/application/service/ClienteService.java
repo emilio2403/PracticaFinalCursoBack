@@ -15,7 +15,7 @@ public class ClienteService {
     private final ClienteRepository repository;
 
     public Optional<Cliente> findClientByEmail(String email) {
-        return repository.findByEmail(email);
+        return repository.findByCorreo(email);
     }
 
     public Optional<Cliente> findClientById(Long id) {

@@ -21,52 +21,52 @@ public class AlquilerControler {
     private final AlquilerMapper alquilerMapper;
 
     @GetMapping("/all")
-    public ResponseEntity<List<AlquilerDTO>>getAllAlquileres(){
+    public ResponseEntity<List<AlquilerDTO>> getAllAlquileres() {
         Optional<List<Alquiler>> alquileres = Optional.of(alquilerRepository.findAll());
-        if (alquileres.isPresent()){
+        if (alquileres.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTOList(alquileres.get()));
-        }else{
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<AlquilerDTO>> getAlquilerByClienteId(@RequestParam(name = "id",required = true)long id){
+    public ResponseEntity<List<AlquilerDTO>> getAlquilerByClienteId(@RequestParam(name = "id", required = true) long id) {
         Optional<List<Alquiler>> alquilerById = alquilerRepository.getAlquilerByCliente_Id(id);
-        if (alquilerById.isPresent()){
+        if (alquilerById.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTOList(alquilerById.get()));
-        }else{
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping("/post")
-    public ResponseEntity<AlquilerDTO> postAlquiler(@RequestBody AlquilerDTO alquilerDTO){
+    public ResponseEntity<AlquilerDTO> postAlquiler(@RequestBody AlquilerDTO alquilerDTO) {
         Optional<Alquiler> alquilerPost = Optional.of(alquilerRepository.insert(alquilerMapper.toModel(alquilerDTO)));
-        if (alquilerPost.isPresent()){
+        if (alquilerPost.isPresent()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(alquilerMapper.toDTO(alquilerPost.get()));
-        }else{
+        } else {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Long> deleteAlquiler(@RequestParam(name = "id",required = true)long id){
+    public ResponseEntity<Long> deleteAlquiler(@RequestParam(name = "id", required = true) long id) {
         alquilerRepository.deleteById(id);
         Optional<Alquiler> alquiler = alquilerRepository.findById(id);
-        if (alquiler.isPresent()){
+        if (alquiler.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(id);
-        }else {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PutMapping("/update")
-    public ResponseEntity<AlquilerDTO> updateAlquiler(@RequestBody AlquilerDTO alquilerDTO){
+    public ResponseEntity<AlquilerDTO> updateAlquiler(@RequestBody AlquilerDTO alquilerDTO) {
         Optional<Alquiler> alquilerPut = Optional.of(alquilerRepository.save(alquilerMapper.toModel(alquilerDTO)));
-        if (alquilerPut.isPresent()){
+        if (alquilerPut.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTO(alquilerPut.get()));
-        }else{
+        } else {
             return ResponseEntity.badRequest().build();
         }
     }

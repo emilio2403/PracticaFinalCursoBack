@@ -1,23 +1,38 @@
 package application.model;
 
-import javax.persistence.*;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Basic;
+import javax.persistence.Embedded;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import java.util.UUID;
 
 @MappedSuperclass
-public class User {
+@NoArgsConstructor
+public abstract class User {
 
-    private long id;
+    private UUID id;
     private String nombre;
     private String correo;
     private String password;
     private String foto;
     private Login login;
 
+    public User(String nombre, String correo, String password, String foto) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.password = password;
+        this.foto = foto;
+        id = UUID.randomUUID();
+    }
+
     @Id
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
