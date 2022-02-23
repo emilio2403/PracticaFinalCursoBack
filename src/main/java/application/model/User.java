@@ -6,12 +6,13 @@ import javax.persistence.Basic;
 import javax.persistence.Embedded;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.util.UUID;
 
 @MappedSuperclass
 @NoArgsConstructor
-public class User {
+public abstract class User {
 
-    private long id;
+    private UUID id;
     private String nombre;
     private String correo;
     private String password;
@@ -23,14 +24,15 @@ public class User {
         this.correo = correo;
         this.password = password;
         this.foto = foto;
+        id = UUID.randomUUID();
     }
 
     @Id
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

@@ -15,6 +15,7 @@ public class Cliente extends User {
 
     public Cliente(String nombre, String correo, String password, String foto, List<Alquiler> alquileres) {
         super(nombre, correo, password, foto);
+        this.alquileres = alquileres;
     }
 
     @OneToMany(cascade = CascadeType.ALL)
