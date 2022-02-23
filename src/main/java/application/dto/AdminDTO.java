@@ -1,21 +1,22 @@
 package application.dto;
 
 import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 
 public class AdminDTO {
 
-    private long id;
+    private UUID id;
     private String nombre;
     private String email;
     private String password;
     private String foto;
 
     @NotBlank(message = "Id no puede estar vacío")
-    public long getId() {
-        return this.id;
+    public UUID getId() {
+        return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
