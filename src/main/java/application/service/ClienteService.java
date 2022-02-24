@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -18,7 +19,7 @@ public class ClienteService {
         return repository.findByCorreo(email);
     }
 
-    public Optional<Cliente> findClientById(Long id) {
+    public Optional<Cliente> findClientById(UUID id) {
         return repository.findById(id);
     }
 
@@ -26,7 +27,7 @@ public class ClienteService {
         return Optional.of(repository.findAll());
     }
 
-    public void deleteClientById(Long id) {
+    public void deleteClientById(UUID id) {
         repository.deleteById(id);
     }
 
