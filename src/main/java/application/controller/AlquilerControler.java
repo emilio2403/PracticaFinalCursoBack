@@ -52,7 +52,7 @@ public class AlquilerControler {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Long> deleteAlquiler(@RequestParam(name = "id", required = true) UUID id) {
+    public ResponseEntity<UUID> deleteAlquiler(@RequestParam(name = "id", required = true) UUID id) {
         alquilerRepository.deleteById(id);
         Optional<Alquiler> alquiler = alquilerRepository.findById(id);
         if (alquiler.isPresent()) {

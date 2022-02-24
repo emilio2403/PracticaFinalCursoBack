@@ -1,5 +1,7 @@
 package application.model;
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@NoArgsConstructor
 public class Infraestructura {
 
     private UUID id;
@@ -26,6 +29,7 @@ public class Infraestructura {
         this.apertura = apertura;
         this.cierre = cierre;
         this.descripcion = descripcion;
+        this.id = UUID.randomUUID();
     }
 
     @Id

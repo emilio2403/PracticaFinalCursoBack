@@ -1,12 +1,13 @@
 package application.service;
 
-import lombok.RequiredArgsConstructor;
 import application.model.Alquiler;
-import org.springframework.stereotype.Service;
 import application.repository.AlquilerRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -14,23 +15,24 @@ import java.util.Optional;
 public class AlquilerService {
 
     private final AlquilerRepository repository;
+
     public Optional<List<Alquiler>> getAllAlquileres() {
         return Optional.of(repository.findAll());
     }
-  
-    public Optional<Alquiler> getAlquilerById(long id){
+
+    public Optional<Alquiler> getAlquilerById(UUID id) {
         return repository.findById(id);
     }
-  
-    public void deleteAlquilerById(long id){
+
+    public void deleteAlquilerById(UUID id) {
         repository.deleteById(id);
     }
-  
-    public Optional<Alquiler> saveAlquiler(Alquiler alquiler){
+
+    public Optional<Alquiler> saveAlquiler(Alquiler alquiler) {
         return Optional.of(repository.save(alquiler));
     }
-  
-    public Optional<List<Alquiler>> getAlquilerByClienteId(long id){
+
+    public Optional<List<Alquiler>> getAlquilerByClienteId(UUID id) {
         return repository.getAlquilerByCliente_Id(id);
     }
 }
