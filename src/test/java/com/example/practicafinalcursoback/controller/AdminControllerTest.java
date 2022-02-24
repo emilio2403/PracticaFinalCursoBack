@@ -7,20 +7,17 @@ import application.model.Admin;
 import application.repository.AdminRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -30,11 +27,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-
+@SpringBootTest
+//@DataMongoTest
 @ContextConfiguration(classes = {AdminController.class})
-@DataMongoTest
-@EnableMongoRepositories(basePackages = {"java.application.repository.*"})
-@ExtendWith(SpringExtension.class)
+//@ExtendWith(SpringExtension.class)
+//@EnableAutoConfiguration
+//@EnableMongoRepositories(basePackages = {"java.application.repository.*"})
 @AutoConfigureMockMvc
 @AutoConfigureJsonTesters
 //@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -58,7 +56,7 @@ public class AdminControllerTest {
     private Admin admin;
 
     @BeforeAll
-    private void beforeAll() {
+    void beforeAll() {
         admin = new Admin("Admin", "admin@gmail.com", "admin", "foto");
         objectMapper = new ObjectMapper();
     }
@@ -67,6 +65,7 @@ public class AdminControllerTest {
     @Order(1)
     void getAll() throws Exception {
         when(repository.findAll()).thenReturn(List.of(admin));
+
         MockHttpServletResponse response = mockMvc.perform(get("/admin/all")
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
@@ -75,6 +74,7 @@ public class AdminControllerTest {
                 () -> assertEquals(response.getStatus(), HttpStatus.OK.value())
         );
         verify(repository, times(1)).findAll();
+
     }
 
     @Test
