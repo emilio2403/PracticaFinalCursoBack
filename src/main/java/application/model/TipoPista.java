@@ -1,5 +1,5 @@
 package application.model;
 
 public enum TipoPista {
-    TENIS, PADEL, FUTBOL, BALONCESTO, FUTBOLSALA, VOLEY
+    TENIS, PADEL, FUTBOL, BALONCESTO, RUGBY, VOLEY
 }

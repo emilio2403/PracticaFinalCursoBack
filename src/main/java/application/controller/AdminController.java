@@ -21,7 +21,7 @@ public class AdminController {
     private final AdminRepository repository;
     private final AdminMapper mapper;
 
-    @GetMapping("/all")
+    @GetMapping(value = "/all")
     public ResponseEntity<List<AdminDTO>> getAllAdmin() {
         Optional<List<Admin>> admins = Optional.of(repository.findAll());
         if (admins.isPresent()) {
