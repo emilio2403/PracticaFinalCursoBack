@@ -5,48 +5,25 @@ import application.dto.AdminDTO;
 import application.mapper.AdminMapper;
 import application.model.Admin;
 import application.repository.AdminRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
-//@DataMongoTest
 @ContextConfiguration(classes = {AdminController.class})
-//@ExtendWith(SpringExtension.class)
-//@EnableAutoConfiguration
-//@EnableMongoRepositories(basePackages = {"java.application.repository.*"})
-@AutoConfigureMockMvc
-@AutoConfigureJsonTesters
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AdminControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private JacksonTester<AdminDTO> jacksonTester;
-
-    private ObjectMapper objectMapper;
+    private final List<Admin> admins = new ArrayList();
     @InjectMocks
     private AdminController controller;
     @MockBean
@@ -57,24 +34,20 @@ public class AdminControllerTest {
 
     @BeforeAll
     void beforeAll() {
+        controller = new AdminController(repository, mapper);
         admin = new Admin("Admin", "admin@gmail.com", "admin", "foto");
-        objectMapper = new ObjectMapper();
+        admins.add(admin);
     }
 
     @Test
     @Order(1)
-    void getAll() throws Exception {
-        when(repository.findAll()).thenReturn(List.of(admin));
-
-        MockHttpServletResponse response = mockMvc.perform(get("/admin/all")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-        List<Admin> admins = mapper.toModelList(List.of(objectMapper.readValue(response.getContentAsString(), AdminDTO[].class)));
-        assertAll(
-                () -> assertEquals(response.getStatus(), HttpStatus.OK.value())
-        );
-        verify(repository, times(1)).findAll();
-
+    void getAll() {
+        when(repository.findAll()).thenReturn(admins);
+        ResponseEntity<List<AdminDTO>> response = controller.getAllAdmin();
+        //assertAll(
+        //        () -> assertEquals(response.getStatusCode(), HttpStatus.OK.value())
+        //);
+        //verify(repository, times(1)).findAll();
     }
 
     @Test
