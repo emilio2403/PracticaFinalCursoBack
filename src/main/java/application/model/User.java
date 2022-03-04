@@ -27,6 +27,15 @@ public abstract class User {
         id = UUID.randomUUID();
     }
 
+    //TEST
+    public User(UUID id, String nombre, String correo, String password, String foto) {
+        this.id = id;
+        this.nombre = nombre;
+        this.correo = correo;
+        this.password = password;
+        this.foto = foto;
+    }
+
     @Id
     public UUID getId() {
         return id;
