@@ -2,6 +2,7 @@ package com.example.practicafinalcursoback.controller;
 
 import application.controller.AdminController;
 import application.dto.AdminDTO;
+import application.error.GeneralError;
 import application.mapper.AdminMapper;
 import application.model.Admin;
 import application.repository.AdminRepository;
@@ -15,10 +16,10 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -57,6 +58,7 @@ public class AdminControllerTest {
         ResponseEntity<List<AdminDTO>> response = controller.getAllAdmin();
         List<AdminDTO> responseList = response.getBody();
         assertAll(
+                () -> assertTrue(responseList.size() > 0),
                 () -> assertEquals(response.getStatusCode(), HttpStatus.OK),
                 () -> assertEquals(admins.size(), responseList.size()),
                 () -> assertEquals(adminsDTO.size(), responseList.size()),
@@ -72,6 +74,7 @@ public class AdminControllerTest {
                 () -> assertEquals(adminsDTO.get(0).getPassword(), responseList.get(0).getPassword())
         );
         verify(repository, times(1)).findAll();
+        verify(mapper, times(1)).toDTOList(admins);
     }
 
     @Test
@@ -79,27 +82,105 @@ public class AdminControllerTest {
     void postAdmin() {
         when(repository.insert(admin)).thenReturn(admin);
         when(mapper.toModel(adminDTO)).thenReturn(admin);
+        when(mapper.toDTO(admin)).thenReturn(adminDTO);
         ResponseEntity<AdminDTO> response = controller.postAdmin(adminDTO);
         AdminDTO adminDTOResponse = response.getBody();
-        //asserts
+        assertAll(
+                () -> assertNotNull(adminDTOResponse),
+                () -> assertEquals(HttpStatus.CREATED, response.getStatusCode()),
+                () -> assertEquals(adminDTO.getId(), adminDTOResponse.getId()),
+                () -> assertEquals(adminDTO.getNombre(), adminDTOResponse.getNombre()),
+                () -> assertEquals(adminDTO.getPassword(), adminDTOResponse.getPassword()),
+                () -> assertEquals(adminDTO.getEmail(), adminDTOResponse.getEmail()),
+                () -> assertEquals(adminDTO.getFoto(), adminDTOResponse.getFoto())
+        );
+        verify(mapper, times(1)).toModel(adminDTO);
+        verify(mapper, times(1)).toDTO(admin);
         verify(repository, times(1)).insert(admin);
     }
 
     @Test
     @Order(3)
     void getAdminById() {
-
+        when(mapper.toDTO(admin)).thenReturn(adminDTO);
+        when(repository.findById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"))).thenReturn(Optional.of(admin));
+        ResponseEntity response = controller.getAdminById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
+        AdminDTO adminResponse = (AdminDTO) response.getBody();
+        assertAll(
+                () -> assertNotNull(adminResponse),
+                () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
+                () -> assertEquals(adminDTO.getId(), adminResponse.getId()),
+                () -> assertEquals(adminDTO.getNombre(), adminResponse.getNombre()),
+                () -> assertEquals(adminDTO.getPassword(), adminResponse.getPassword()),
+                () -> assertEquals(adminDTO.getEmail(), adminResponse.getEmail()),
+                () -> assertEquals(adminDTO.getFoto(), adminResponse.getFoto())
+        );
+        verify(mapper, times(1)).toDTO(admin);
+        verify(repository, times(1)).findById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
     }
 
     @Test
     @Order(4)
-    void updateAdmin() {
-
+    void getAdminByIdError() {
+        when(repository.findById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"))).thenReturn(Optional.empty());
+        ResponseEntity response = controller.getAdminById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
+        GeneralError error = (GeneralError) response.getBody();
+        assertAll(
+                () -> assertNotNull(error),
+                () -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()),
+                () -> assertEquals("Error general.", error.getMessage())
+        );
+        verify(repository, times(1)).findById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
     }
 
     @Test
     @Order(5)
-    void deleteAdmin() {
+    void updateAdmin() {
+        when(repository.save(admin)).thenReturn(admin);
+        when(mapper.toModel(adminDTO)).thenReturn(admin);
+        when(mapper.toDTO(admin)).thenReturn(adminDTO);
+        ResponseEntity response = controller.updateAdmin(adminDTO);
+        AdminDTO adminResponse = (AdminDTO) response.getBody();
+        assertAll(
+                () -> assertNotNull(adminResponse),
+                () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
+                () -> assertEquals(adminDTO.getId(), adminResponse.getId()),
+                () -> assertEquals(adminDTO.getNombre(), adminResponse.getNombre()),
+                () -> assertEquals(adminDTO.getPassword(), adminResponse.getPassword()),
+                () -> assertEquals(adminDTO.getEmail(), adminResponse.getEmail()),
+                () -> assertEquals(adminDTO.getFoto(), adminResponse.getFoto())
+        );
+        verify(mapper, times(1)).toModel(adminDTO);
+        verify(mapper, times(1)).toDTO(admin);
+        verify(repository, times(1)).save(admin);
+    }
 
+    @Test
+    @Order(6)
+    void deleteAdmin() {
+        doNothing().when(repository).deleteById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
+        when(repository.findById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"))).thenReturn(Optional.empty());
+        ResponseEntity response = controller.deleteAdmin(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
+        assertAll(
+                () -> assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode())
+        );
+        verify(repository, times(1)).deleteById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
+        verify(repository, times(1)).findById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
+    }
+
+    @Test
+    @Order(7)
+    void deleteAdminError() {
+        doNothing().when(repository).deleteById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
+        when(repository.findById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"))).thenReturn(Optional.of(admin));
+        ResponseEntity response = controller.deleteAdmin(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
+        GeneralError error = (GeneralError) response.getBody();
+        assertAll(
+                () -> assertNotNull(error),
+                () -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()),
+                () -> assertEquals("Error general.", error.getMessage())
+        );
+        verify(repository, times(1)).deleteById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
+        verify(repository, times(1)).findById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
     }
 }
