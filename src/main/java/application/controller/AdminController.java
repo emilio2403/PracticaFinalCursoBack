@@ -1,6 +1,7 @@
 package application.controller;
 
 import application.dto.AdminDTO;
+import application.error.GeneralError;
 import application.mapper.AdminMapper;
 import application.model.Admin;
 import application.repository.AdminRepository;
@@ -23,12 +24,7 @@ public class AdminController {
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<AdminDTO>> getAllAdmin() {
-        Optional<List<Admin>> admins = Optional.of(repository.findAll());
-        if (admins.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTOList(admins.get()));
-        } else {
-            return ResponseEntity.ok().build();
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTOList(repository.findAll()));
     }
 
     @PostMapping("/post")
@@ -37,7 +33,7 @@ public class AdminController {
         if (adminPost.isPresent()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDTO(adminPost.get()));
         } else {
-            return ResponseEntity.ok().build();
+            throw new GeneralError();
         }
     }
 
@@ -47,8 +43,7 @@ public class AdminController {
             repository.deleteById(id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            e.printStackTrace();
-            return ResponseEntity.notFound().build();
+            throw new GeneralError();
         }
     }
 }
