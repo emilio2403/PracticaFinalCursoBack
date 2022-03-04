@@ -1,5 +1,6 @@
 package application.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Cliente extends User {
 
+    @ApiModelProperty(value = "Alquileres", dataType = "List<Alquiler>", position = 7)
     private List<Alquiler> alquileres;
 
     public Cliente(String nombre, String correo, String password, String foto, List<Alquiler> alquileres) {

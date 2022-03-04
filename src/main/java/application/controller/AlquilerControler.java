@@ -37,7 +37,7 @@ public class AlquilerControler {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/alquiler")
     public ResponseEntity getAlquilerByClienteId(@RequestParam(name = "id", required = true) UUID id) {
         Optional<Alquiler> alquilerById = alquilerRepository.getAlquilerByCliente_Id(id);
         if (alquilerById.isPresent()) {
