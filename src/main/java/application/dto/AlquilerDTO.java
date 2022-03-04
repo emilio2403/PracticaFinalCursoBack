@@ -11,6 +11,22 @@ public class AlquilerDTO {
     private InfraestructuraDTO infraestructura;
     private ClienteDTO cliente;
 
+    public AlquilerDTO() {
+        this.id = UUID.randomUUID();
+    }
+
+    public AlquilerDTO(double coste) {
+        this.id = UUID.randomUUID();
+        this.coste = coste;
+    }
+
+    //TEST
+    public AlquilerDTO(UUID id, double coste) {
+        this.id = id;
+        this.coste = coste;
+
+    }
+
     public UUID getId() {
         return id;
     }

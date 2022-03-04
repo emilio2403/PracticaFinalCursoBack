@@ -1,10 +1,13 @@
 package application.model;
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@NoArgsConstructor
 public class Alquiler {
 
     private UUID id;
@@ -13,6 +16,12 @@ public class Alquiler {
     private double coste;
     private Infraestructura infraestructura;
     private Cliente cliente;
+
+    public Alquiler(UUID id, double coste) {
+        this.id = id;
+        this.coste = coste;
+    }
+
 
     @Id
     public UUID getId() {

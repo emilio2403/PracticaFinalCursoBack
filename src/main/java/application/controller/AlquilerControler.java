@@ -1,6 +1,7 @@
 package application.controller;
 
 import application.dto.AlquilerDTO;
+import application.error.GeneralError;
 import application.mapper.AlquilerMapper;
 import application.model.Alquiler;
 import application.repository.AlquilerRepository;
@@ -21,54 +22,49 @@ public class AlquilerControler {
     private final AlquilerRepository alquilerRepository;
     private final AlquilerMapper alquilerMapper;
 
-    @GetMapping("/all")
+    @GetMapping(value = "/all")
     public ResponseEntity<List<AlquilerDTO>> getAllAlquileres() {
-        Optional<List<Alquiler>> alquileres = Optional.of(alquilerRepository.findAll());
-        if (alquileres.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTOList(alquileres.get()));
+        return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTOList(alquilerRepository.findAll()));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AlquilerDTO> getAlquilerById(@RequestParam(name = "id", required = true) UUID id) {
+        Optional<Alquiler> alquiler = alquilerRepository.findById(id);
+        if (alquiler.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTO(alquiler.get()));
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<AlquilerDTO>> getAlquilerByClienteId(@RequestParam(name = "id", required = true) UUID id) {
-        Optional<List<Alquiler>> alquilerById = alquilerRepository.getAlquilerByCliente_Id(id);
+    public ResponseEntity getAlquilerByClienteId(@RequestParam(name = "id", required = true) UUID id) {
+        Optional<Alquiler> alquilerById = alquilerRepository.getAlquilerByCliente_Id(id);
         if (alquilerById.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTOList(alquilerById.get()));
+            return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTO(alquilerById.get()));
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new GeneralError());
         }
     }
 
     @PostMapping("/post")
     public ResponseEntity<AlquilerDTO> postAlquiler(@RequestBody AlquilerDTO alquilerDTO) {
-        Optional<Alquiler> alquilerPost = Optional.of(alquilerRepository.insert(alquilerMapper.toModel(alquilerDTO)));
-        if (alquilerPost.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(alquilerMapper.toDTO(alquilerPost.get()));
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(alquilerMapper.toDTO(alquilerRepository.insert(alquilerMapper.toModel(alquilerDTO))));
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<UUID> deleteAlquiler(@RequestParam(name = "id", required = true) UUID id) {
+    public ResponseEntity deleteAlquiler(@RequestParam(name = "id", required = true) UUID id) {
         alquilerRepository.deleteById(id);
         Optional<Alquiler> alquiler = alquilerRepository.findById(id);
-        if (alquiler.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(id);
+        if (alquiler.isEmpty()) {
+            return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
         }
     }
 
     @PutMapping("/update")
     public ResponseEntity<AlquilerDTO> updateAlquiler(@RequestBody AlquilerDTO alquilerDTO) {
-        Optional<Alquiler> alquilerPut = Optional.of(alquilerRepository.save(alquilerMapper.toModel(alquilerDTO)));
-        if (alquilerPut.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTO(alquilerPut.get()));
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTO(alquilerRepository.save(alquilerMapper.toModel(alquilerDTO))));
     }
 }
