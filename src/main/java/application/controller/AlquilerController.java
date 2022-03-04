@@ -17,7 +17,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/alquiler")
 @RequiredArgsConstructor
-public class AlquilerControler {
+public class AlquilerController {
 
     private final AlquilerRepository alquilerRepository;
     private final AlquilerMapper alquilerMapper;
@@ -28,12 +28,12 @@ public class AlquilerControler {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AlquilerDTO> getAlquilerById(@RequestParam(name = "id", required = true) UUID id) {
+    public ResponseEntity getAlquilerById(@RequestParam(name = "id", required = true) UUID id) {
         Optional<Alquiler> alquiler = alquilerRepository.findById(id);
-        if (alquiler.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTO(alquiler.get()));
+        if (alquiler.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTO(alquiler.get()));
         }
     }
 

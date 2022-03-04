@@ -25,7 +25,7 @@ public class AdminController {
     private final AdminRepository repository;
     private final AdminMapper mapper;
 
-    @ApiOperation(value = "Get All Admin", notes = "Devuelve una lista de administradores")
+    @ApiOperation(value = "Get All Admin", notes = "Devuelve una lista de administradores.")
     @ApiResponse(code = 200, message = "OK", response = AdminDTO.class)
     @GetMapping("/all")
     public ResponseEntity<List<AdminDTO>> getAllAdmin() {

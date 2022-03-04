@@ -1,6 +1,6 @@
 package com.example.practicafinalcursoback.controller;
 
-import application.controller.AlquilerControler;
+import application.controller.AlquilerController;
 import application.dto.AlquilerDTO;
 import application.error.GeneralError;
 import application.mapper.AlquilerMapper;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@ContextConfiguration(classes = {AlquilerControler.class})
+@ContextConfiguration(classes = {AlquilerController.class})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AlquilerControllerTest {
@@ -31,7 +31,7 @@ public class AlquilerControllerTest {
     private List<AlquilerDTO> alquileresDTO;
     private List<Alquiler> alquileres;
     @InjectMocks
-    private AlquilerControler controller;
+    private AlquilerController controller;
     @MockBean
     private AlquilerRepository repository;
     @MockBean
@@ -41,7 +41,7 @@ public class AlquilerControllerTest {
 
     @BeforeAll
     void beforeAll() {
-        controller = new AlquilerControler(repository, mapper);
+        controller = new AlquilerController(repository, mapper);
         alquiler = new Alquiler(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"), 20);
         alquilerDTO = new AlquilerDTO(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"), 20);
         alquileres = new ArrayList<>();
@@ -102,6 +102,20 @@ public class AlquilerControllerTest {
 
     @Test
     @Order(4)
+    void getAlquilerByIdError() {
+        when(repository.findById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"))).thenReturn(Optional.empty());
+        ResponseEntity response = controller.getAlquilerById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
+        GeneralError error = (GeneralError) response.getBody();
+        assertAll(
+                () -> assertNotNull(error),
+                () -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()),
+                () -> assertEquals("Error general.", error.getMessage())
+        );
+        verify(repository, times(1)).findById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
+    }
+
+    @Test
+    @Order(5)
     void updateAlquiler() {
         when(repository.save(alquiler)).thenReturn(alquiler);
         when(mapper.toModel(alquilerDTO)).thenReturn(alquiler);
@@ -119,7 +133,7 @@ public class AlquilerControllerTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     void deleteAlquiler() {
         doNothing().when(repository).deleteById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
         when(repository.findById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"))).thenReturn(Optional.empty());
@@ -132,7 +146,7 @@ public class AlquilerControllerTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     void deleteAlquilerError() {
         doNothing().when(repository).deleteById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
         when(repository.findById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"))).thenReturn(Optional.of(alquiler));

@@ -1,9 +1,13 @@
 package application.controller;
 
 import application.dto.InfraestructuraDTO;
+import application.error.GeneralError;
 import application.mapper.InfraestructuraMapper;
 import application.model.Infraestructura;
 import application.repository.InfraestructuraRepository;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,64 +25,70 @@ public class InfraestructuraController {
     private final InfraestructuraRepository repository;
     private final InfraestructuraMapper mapper;
 
+    @ApiOperation(value = "Get All Infraestructuras", notes = "Devuelve una lista de infraestructuras.")
+    @ApiResponse(code = 200, message = "OK", response = InfraestructuraDTO.class)
     @GetMapping("/all")
     public ResponseEntity<List<InfraestructuraDTO>> getAllInfraestructura() {
-        Optional<List<InfraestructuraDTO>> estructuras = Optional.of(mapper.toDTOList(repository.findAll()));
-        if (estructuras.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(estructuras.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTOList(repository.findAll()));
     }
 
+    @ApiOperation(value = "Get Infraestructura By Id", notes = "Devolverá la infraestructura en caso de encontrarla.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = InfraestructuraDTO.class),
+            @ApiResponse(code = 400, message = "BAD_REQUEST", response = GeneralError.class)
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<InfraestructuraDTO> getInfraestructuraById(@RequestParam(name = "id", required = true) UUID id) {
+    public ResponseEntity getInfraestructuraById(@RequestParam(name = "id", required = true) UUID id) {
         Optional<Infraestructura> estructura = repository.findById(id);
-        if (estructura.isPresent()) {
+        if (estructura.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
+        } else {
             return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTO(estructura.get()));
-        } else {
-            return ResponseEntity.notFound().build();
         }
     }
 
+    @ApiOperation(value = "Get Infraestructura By Tipo", notes = "Devolverá la infraestructura en caso de encontrarla.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = InfraestructuraDTO.class),
+            @ApiResponse(code = 400, message = "BAD_REQUEST", response = GeneralError.class)
+    })
     @GetMapping("/{tipo}")
-    public ResponseEntity<List<InfraestructuraDTO>> getInfraestructuraByTipo(@RequestParam(name = "tipo", required = true) String tipo) {
+    public ResponseEntity getInfraestructuraByTipo(@RequestParam(name = "tipo", required = true) String tipo) {
         Optional<List<Infraestructura>> estructura = repository.findAllByTipo(tipo);
-        if (estructura.isPresent()) {
+        if (estructura.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
+        } else {
             return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTOList(estructura.get()));
-        } else {
-            return ResponseEntity.notFound().build();
         }
     }
 
+    @ApiOperation(value = "Post Infraestructura", notes = "Devuelve la infraestructura que se ha insertado.")
+    @ApiResponse(code = 201, message = "Created", response = InfraestructuraDTO.class)
     @PostMapping("/post")
-    public ResponseEntity<InfraestructuraDTO> postInfraestructura(@RequestBody InfraestructuraDTO infraestructura) {
-        Optional<InfraestructuraDTO> estructura = Optional.of(mapper.toDTO(repository.insert(mapper.toModel(infraestructura))));
-        if (estructura.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(estructura.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity postInfraestructura(@RequestBody InfraestructuraDTO infraestructura) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDTO(repository.insert(mapper.toModel(infraestructura))));
     }
 
+    @ApiOperation(value = "Delete Infraestructura", notes = "Devolverá una respuesta sin cuerpo.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "No Content", response = InfraestructuraDTO.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralError.class)
+    })
     @DeleteMapping("/delete")
-    public ResponseEntity<UUID> deleteInfraestructura(@RequestBody UUID id) {
+    public ResponseEntity deleteInfraestructura(@RequestParam(name = "id", required = true) UUID id) {
         repository.deleteById(id);
         Optional<Infraestructura> estructura = repository.findById(id);
         if (estructura.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.OK).body(id);
+            return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
         }
     }
 
+    @ApiOperation(value = "Put Infraestructura", notes = "Devuelve la infraestructura que ha sido modificada.")
+    @ApiResponse(code = 200, message = "OK", response = InfraestructuraDTO.class)
     @PutMapping("/update")
     public ResponseEntity<InfraestructuraDTO> updateInfaestructura(@RequestBody InfraestructuraDTO infraestructura) {
-        Optional<InfraestructuraDTO> estructura = Optional.of(mapper.toDTO(repository.save(mapper.toModel(infraestructura))));
-        if (estructura.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(estructura.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTO(repository.save(mapper.toModel(infraestructura))));
     }
 }

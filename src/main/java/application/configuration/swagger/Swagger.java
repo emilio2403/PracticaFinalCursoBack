@@ -35,7 +35,7 @@ public class Swagger {
                 .contact(new Contact("Eneko Rebollo Hernández", "https://github.com/enekor", "enekorebollo@gmail.com"))
                 .contact(new Contact("Saul", "https://github.com/saulmella12", "saulmella12@gmail.com"))
                 .contact(new Contact("Dylan", "https://github.com/DyLaNHurtado", "lopeznovillo2000@gmail.com"))
-                .contact(new Contact("Loli", "https://github.com/Idliketobealoli", "lopeznovillo2000@gmail.com"))
+                .contact(new Contact("Daniel Rodriguez Munoz", "https://github.com/Idliketobealoli", "daniel.ro.mu02@gmail.com"))
                 .contact(new Contact("Emilio López Novillo", "https://github.com/emilio2403", "lopeznovillo2000@gmail.com"))
                 .build();
     }
