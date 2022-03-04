@@ -22,28 +22,39 @@ public class AdminController {
     private final AdminRepository repository;
     private final AdminMapper mapper;
 
-    @GetMapping(value = "/all")
+    @GetMapping("/all")
     public ResponseEntity<List<AdminDTO>> getAllAdmin() {
         return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTOList(repository.findAll()));
     }
 
-    @PostMapping("/post")
-    public ResponseEntity<AdminDTO> postAdmin(@RequestBody AdminDTO admin) {
-        Optional<Admin> adminPost = Optional.of(repository.insert(mapper.toModel(admin)));
-        if (adminPost.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDTO(adminPost.get()));
+    @GetMapping("/id")
+    public ResponseEntity getAdminById(@RequestParam(name = "id", required = true) UUID id) {
+        Optional<Admin> admin = repository.findById(id);
+        if (admin.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
         } else {
-            throw new GeneralError();
+            return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTO(admin.get()));
         }
     }
 
+    @PostMapping("/post")
+    public ResponseEntity<AdminDTO> postAdmin(@RequestBody AdminDTO admin) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDTO(repository.insert(mapper.toModel(admin))));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<AdminDTO> updateAdmin(@RequestBody AdminDTO adminDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTO(repository.save(mapper.toModel(adminDTO))));
+    }
+
     @DeleteMapping("/delete")
-    public ResponseEntity<Admin> deleteAdmin(@RequestParam(name = "id", required = true) UUID id) {
-        try {
-            repository.deleteById(id);
+    public ResponseEntity deleteAdmin(@RequestParam(name = "id", required = true) UUID id) {
+        repository.deleteById(id);
+        Optional<Admin> admin = repository.findById(id);
+        if (admin.isEmpty()) {
             return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            throw new GeneralError();
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
         }
     }
 }
