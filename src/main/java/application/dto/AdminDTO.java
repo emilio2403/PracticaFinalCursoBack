@@ -2,20 +2,26 @@ package application.dto;
 
 import application.configuration.views.Views;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.UUID;
 
 public class AdminDTO {
 
     @JsonView(Views.Admin.class)
+    @ApiModelProperty(value = "Id admin", dataType = "UUID", position = 1)
     private UUID id;
     @JsonView(Views.Admin.class)
+    @ApiModelProperty(value = "Nombre", dataType = "String", position = 2)
     private String nombre;
     @JsonView(Views.Admin.class)
+    @ApiModelProperty(value = "Email", dataType = "String", position = 3)
     private String email;
     @JsonView(Views.Admin.class)
+    @ApiModelProperty(value = "Contraseña", dataType = "String", position = 4)
     private String password;
     @JsonView(Views.Admin.class)
+    @ApiModelProperty(value = "Foto", dataType = "String", position = 5)
     private String foto;
 
     public AdminDTO() {

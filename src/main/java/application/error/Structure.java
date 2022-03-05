@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class Structure {
+
     private HttpStatus status;
     private LocalDateTime time;
     private String message;

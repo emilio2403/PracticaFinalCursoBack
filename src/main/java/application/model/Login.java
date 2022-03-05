@@ -1,7 +1,5 @@
 package application.model;
 
-import io.swagger.annotations.ApiModelProperty;
-
 import javax.persistence.Basic;
 import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
@@ -9,11 +7,9 @@ import java.util.UUID;
 
 @Embeddable
 public class Login {
-    @ApiModelProperty(value = "Id Login", dataType = "UUID", position = 1)
+
     private UUID id;
-    @ApiModelProperty(value = "Fecha", dataType = "LocalDateTime", position = 2)
     private LocalDateTime fecha;
-    @ApiModelProperty(value = "Token", dataType = "String", position = 3)
     private String token;
 
 

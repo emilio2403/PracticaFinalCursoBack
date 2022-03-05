@@ -2,6 +2,7 @@ package application.dto;
 
 import application.configuration.views.Views;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,16 +11,22 @@ import java.util.UUID;
 public class InfraestructuraDTO {
 
     @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @ApiModelProperty(value = "Id infraestructura", dataType = "UUID", position = 1)
     private UUID id;
     @JsonView(Views.Infraestructura.class)
+    @ApiModelProperty(value = "Lista alquileres", position = 2)
     private List<AlquilerDTO> alquileres;
     @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @ApiModelProperty(value = "Tipo", dataType = "String", position = 3)
     private String tipo;
     @JsonView(Views.Infraestructura.class)
+    @ApiModelProperty(value = "Foto", dataType = "String", position = 4)
     private String foto;
     @JsonView(Views.Infraestructura.class)
+    @ApiModelProperty(value = "Fecha de apertura", dataType = "LocalDateTime", position = 5)
     private LocalDateTime apertura;
     @JsonView(Views.Infraestructura.class)
+    @ApiModelProperty(value = "Fecha de cierre", dataType = "LocalDateTime", position = 6)
     private LocalDateTime cierre;
 
     public UUID getId() {
