@@ -2,22 +2,29 @@ package application.dto;
 
 import application.configuration.views.Views;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class AlquilerDTO {
     @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @ApiModelProperty(value = "Id alquiler", dataType = "UUID", position = 1)
     private UUID id;
     @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @ApiModelProperty(value = "Fecha inicio", dataType = "LocalDateTime", position = 2)
     private LocalDateTime inicio;
     @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @ApiModelProperty(value = "Fecha fin", dataType = "LocalDateTime", position = 3)
     private LocalDateTime fin;
     @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @ApiModelProperty(value = "Coste", dataType = "Double", position = 4)
     private double coste;
     @JsonView({Views.Alquiler.class, Views.Cliente.class})
+    @ApiModelProperty(value = "Infraestructura", dataType = "InfraestructuraDTO", position = 5)
     private InfraestructuraDTO infraestructura;
     @JsonView({Views.Infraestructura.class, Views.Alquiler.class})
+    @ApiModelProperty(value = "Cliente", dataType = "ClienteDTO", position = 6)
     private ClienteDTO cliente;
 
     public AlquilerDTO() {

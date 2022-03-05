@@ -1,6 +1,5 @@
 package application.model;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Basic;
@@ -13,17 +12,11 @@ import java.util.UUID;
 @NoArgsConstructor
 public abstract class User {
 
-    @ApiModelProperty(value = "Id usuario", dataType = "UUID", position = 1)
     private UUID id;
-    @ApiModelProperty(value = "Nombre", dataType = "String", position = 2)
     private String nombre;
-    @ApiModelProperty(value = "Correo", dataType = "String", position = 3)
     private String correo;
-    @ApiModelProperty(value = "Contraseña", dataType = "String", position = 4)
     private String password;
-    @ApiModelProperty(value = "Foto", dataType = "String", position = 5)
     private String foto;
-    @ApiModelProperty(value = "Login", dataType = "Login", position = 6)
     private Login login;
 
     public User(String nombre, String correo, String password, String foto) {

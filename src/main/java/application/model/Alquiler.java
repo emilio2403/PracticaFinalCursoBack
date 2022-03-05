@@ -1,6 +1,5 @@
 package application.model;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -11,17 +10,11 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Alquiler {
 
-    @ApiModelProperty(value = "Id alquiler", dataType = "UUID", position = 1)
     private UUID id;
-    @ApiModelProperty(value = "Fecha inicio", dataType = "LocalDateTime", position = 2)
     private LocalDateTime inicio;
-    @ApiModelProperty(value = "Fecha fin", dataType = "LocalDateTime", position = 3)
     private LocalDateTime fin;
-    @ApiModelProperty(value = "Coste", dataType = "Double", position = 4)
     private double coste;
-    @ApiModelProperty(value = "Infraestructura", dataType = "Infraestructure", position = 5)
     private Infraestructura infraestructura;
-    @ApiModelProperty(value = "Cliente", dataType = "Cliente", position = 6)
     private Cliente cliente;
 
     public Alquiler(UUID id, double coste) {
