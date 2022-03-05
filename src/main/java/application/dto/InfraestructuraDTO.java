@@ -76,4 +76,26 @@ public class InfraestructuraDTO {
     public void setCierre(LocalDateTime cierre) {
         this.cierre = cierre;
     }
+
+    public InfraestructuraDTO() {
+        this.id = UUID.randomUUID();
+    }
+
+    public InfraestructuraDTO(List<AlquilerDTO> alquileres, String tipo, String foto, LocalDateTime apertura, LocalDateTime cierre) {
+        this.id = UUID.randomUUID();
+        this.alquileres = alquileres;
+        this.tipo = tipo;
+        this.foto = foto;
+        this.apertura = apertura;
+        this.cierre = cierre;
+    }
+
+    // TEST
+    public InfraestructuraDTO(UUID id, String tipo, String foto, LocalDateTime apertura, LocalDateTime cierre) {
+        this.id = id;
+        this.tipo = tipo;
+        this.foto = foto;
+        this.apertura = apertura;
+        this.cierre = cierre;
+    }
 }
