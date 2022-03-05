@@ -1,10 +1,12 @@
 package application.controller;
 
+import application.configuration.views.Views;
 import application.dto.AdminDTO;
 import application.error.GeneralError;
 import application.mapper.AdminMapper;
 import application.model.Admin;
 import application.repository.AdminRepository;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -19,6 +21,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin(origins = "http://localhost:7777")
 @RequiredArgsConstructor
 public class AdminController {
 
@@ -27,6 +30,7 @@ public class AdminController {
 
     @ApiOperation(value = "Get All Admin", notes = "Devuelve una lista de administradores.")
     @ApiResponse(code = 200, message = "OK", response = AdminDTO.class)
+    @JsonView(Views.Admin.class)
     @GetMapping("/all")
     public ResponseEntity<List<AdminDTO>> getAllAdmin() {
         return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTOList(repository.findAll()));
@@ -37,6 +41,7 @@ public class AdminController {
             @ApiResponse(code = 200, message = "OK", response = AdminDTO.class),
             @ApiResponse(code = 400, message = "BAD_REQUEST", response = GeneralError.class)
     })
+    @JsonView(Views.Admin.class)
     @GetMapping("/id")
     public ResponseEntity getAdminById(@RequestParam(name = "id", required = true) UUID id) {
         Optional<Admin> admin = repository.findById(id);
@@ -49,6 +54,7 @@ public class AdminController {
 
     @ApiOperation(value = "Post Admin", notes = "Devuelve el administrador que se ha insertado.")
     @ApiResponse(code = 201, message = "Created", response = AdminDTO.class)
+    @JsonView(Views.Admin.class)
     @PostMapping("/post")
     public ResponseEntity<AdminDTO> postAdmin(@RequestBody AdminDTO admin) {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDTO(repository.insert(mapper.toModel(admin))));
@@ -56,6 +62,7 @@ public class AdminController {
 
     @ApiOperation(value = "Put Admin", notes = "Devuelve el administrador que ha sido modificado.")
     @ApiResponse(code = 200, message = "OK", response = AdminDTO.class)
+    @JsonView(Views.Admin.class)
     @PutMapping("/update")
     public ResponseEntity<AdminDTO> updateAdmin(@RequestBody AdminDTO adminDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTO(repository.save(mapper.toModel(adminDTO))));
@@ -66,6 +73,7 @@ public class AdminController {
             @ApiResponse(code = 204, message = "No Content", response = AdminDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralError.class)
     })
+    @JsonView(Views.Admin.class)
     @DeleteMapping("/delete")
     public ResponseEntity deleteAdmin(@RequestParam(name = "id", required = true) UUID id) {
         repository.deleteById(id);

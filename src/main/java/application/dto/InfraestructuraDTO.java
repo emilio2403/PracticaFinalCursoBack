@@ -1,16 +1,25 @@
 package application.dto;
 
+import application.configuration.views.Views;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 public class InfraestructuraDTO {
 
+    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
     private UUID id;
+    @JsonView(Views.Infraestructura.class)
     private List<AlquilerDTO> alquileres;
+    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
     private String tipo;
+    @JsonView(Views.Infraestructura.class)
     private String foto;
+    @JsonView(Views.Infraestructura.class)
     private LocalDateTime apertura;
+    @JsonView(Views.Infraestructura.class)
     private LocalDateTime cierre;
 
     public UUID getId() {

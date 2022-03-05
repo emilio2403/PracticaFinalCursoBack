@@ -1,13 +1,21 @@
 package application.dto;
 
+import application.configuration.views.Views;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.util.UUID;
 
 public class AdminDTO {
 
+    @JsonView(Views.Admin.class)
     private UUID id;
+    @JsonView(Views.Admin.class)
     private String nombre;
+    @JsonView(Views.Admin.class)
     private String email;
+    @JsonView(Views.Admin.class)
     private String password;
+    @JsonView(Views.Admin.class)
     private String foto;
 
     public AdminDTO() {

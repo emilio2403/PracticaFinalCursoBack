@@ -1,14 +1,23 @@
 package application.dto;
 
+import application.configuration.views.Views;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.util.List;
 import java.util.UUID;
 
 public class ClienteDTO {
+    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
     private UUID id;
+    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
     private String nombre;
+    @JsonView(Views.Cliente.class)
     private String correo;
+    @JsonView(Views.Cliente.class)
     private String password;
+    @JsonView(Views.Cliente.class)
     private String foto;
+    @JsonView(Views.Cliente.class)
     private List<AlquilerDTO> alquileres;
 
     public UUID getId() {
