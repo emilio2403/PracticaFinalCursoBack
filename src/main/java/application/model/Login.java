@@ -8,28 +8,15 @@ import java.util.UUID;
 @Embeddable
 public class Login {
 
-    private UUID id;
     private LocalDateTime fecha;
-    private String token;
-
-
-    public Login(LocalDateTime fecha, String token) {
-        this.id = UUID.randomUUID();
-        this.fecha = fecha;
-        this.token = token;
-    }
+    private UUID token;
 
     public Login() {
-
     }
 
-    @Basic
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
+    public Login(LocalDateTime fecha, UUID token) {
+        this.fecha = fecha;
+        this.token = token;
     }
 
     @Basic
@@ -42,20 +29,11 @@ public class Login {
     }
 
     @Basic
-    public String getToken() {
+    public UUID getToken() {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(UUID token) {
         this.token = token;
-    }
-
-    @Override
-    public String toString() {
-        return "Login{" +
-                "id=" + id +
-                ", fecha=" + fecha +
-                ", token='" + token + '\'' +
-                '}';
     }
 }
