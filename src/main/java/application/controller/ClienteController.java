@@ -1,10 +1,12 @@
 package application.controller;
 
+import application.configuration.views.Views;
 import application.dto.ClienteDTO;
 import application.error.GeneralError;
 import application.mapper.ClienteMapper;
 import application.model.Cliente;
 import application.repository.ClienteRepository;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -25,9 +27,9 @@ public class ClienteController {
     private final ClienteRepository clienteRepository;
     private final ClienteMapper mapper;
 
-
     @ApiOperation(value = "Get All Cliente", notes = "Devuelve una lista de clientes.")
     @ApiResponse(code = 200, message = "OK", response = ClienteDTO.class)
+    @JsonView(Views.Cliente.class)
     @GetMapping("/")
     public ResponseEntity<List<ClienteDTO>> findAll() {
         return ResponseEntity.status(HttpStatus.FOUND).body(mapper.toDTOList(clienteRepository.findAll()));
@@ -38,6 +40,7 @@ public class ClienteController {
             @ApiResponse(code = 200, message = "OK", response = ClienteDTO.class),
             @ApiResponse(code = 400, message = "BAD_REQUEST", response = GeneralError.class)
     })
+    @JsonView(Views.Cliente.class)
     @GetMapping("/{id}")
     public ResponseEntity findById(@RequestParam(name = "id", required = true) UUID id) {
         Optional<Cliente> cliente = clienteRepository.findById(id);
@@ -53,6 +56,7 @@ public class ClienteController {
             @ApiResponse(code = 200, message = "OK", response = ClienteDTO.class),
             @ApiResponse(code = 400, message = "BAD_REQUEST", response = GeneralError.class)
     })
+    @JsonView(Views.Cliente.class)
     @GetMapping("/{correo}")
     public ResponseEntity getByEmail(@RequestParam(name = "tipo", required = true) String correo) {
         Optional<Cliente> cliente = clienteRepository.findByCorreo(correo);
@@ -65,6 +69,7 @@ public class ClienteController {
 
     @ApiOperation(value = "Post Cliente", notes = "Devuelve el cliente que se ha insertado.")
     @ApiResponse(code = 201, message = "Created", response = ClienteDTO.class)
+    @JsonView(Views.Cliente.class)
     @PostMapping("/")
     public ResponseEntity<ClienteDTO> postClient(@RequestBody ClienteDTO clienteDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDTO(clienteRepository.insert(mapper.toModel(clienteDTO))));
@@ -72,6 +77,7 @@ public class ClienteController {
 
     @ApiOperation(value = "Put Cliente", notes = "Devuelve el cliente que ha sido modificado.")
     @ApiResponse(code = 200, message = "OK", response = ClienteDTO.class)
+    @JsonView(Views.Cliente.class)
     @PutMapping("/")
     public ResponseEntity<ClienteDTO> putClient(@RequestBody ClienteDTO clienteDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTO(clienteRepository.save(mapper.toModel(clienteDTO))));
@@ -82,6 +88,7 @@ public class ClienteController {
             @ApiResponse(code = 204, message = "No Content", response = ClienteDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralError.class)
     })
+    @JsonView(Views.Cliente.class)
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@RequestParam(name = "id", required = true) UUID id) {
         clienteRepository.deleteById(id);
@@ -92,6 +99,4 @@ public class ClienteController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
         }
     }
-
-
 }

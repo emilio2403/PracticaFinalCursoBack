@@ -1,10 +1,12 @@
 package application.controller;
 
+import application.configuration.views.Views;
 import application.dto.AlquilerDTO;
 import application.error.GeneralError;
 import application.mapper.AlquilerMapper;
 import application.model.Alquiler;
 import application.repository.AlquilerRepository;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -27,6 +29,7 @@ public class AlquilerController {
 
     @ApiOperation(value = "Get All Alquileres", notes = "Devuelve una lista de alquileres.")
     @ApiResponse(code = 200, message = "OK", response = AlquilerDTO.class)
+    @JsonView(Views.Alquiler.class)
     @GetMapping(value = "/all")
     public ResponseEntity<List<AlquilerDTO>> getAllAlquileres() {
         return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTOList(alquilerRepository.findAll()));
@@ -37,6 +40,7 @@ public class AlquilerController {
             @ApiResponse(code = 200, message = "OK", response = AlquilerDTO.class),
             @ApiResponse(code = 400, message = "BAD_REQUEST", response = GeneralError.class)
     })
+    @JsonView(Views.Alquiler.class)
     @GetMapping("/{id}")
     public ResponseEntity getAlquilerById(@RequestParam(name = "id", required = true) UUID id) {
         Optional<Alquiler> alquiler = alquilerRepository.findById(id);
@@ -52,6 +56,7 @@ public class AlquilerController {
             @ApiResponse(code = 200, message = "OK", response = AlquilerDTO.class),
             @ApiResponse(code = 400, message = "BAD_REQUEST", response = GeneralError.class)
     })
+    @JsonView(Views.Alquiler.class)
     @GetMapping("/{id}/alquiler")
     public ResponseEntity getAlquilerByClienteId(@RequestParam(name = "id", required = true) UUID id) {
         Optional<Alquiler> alquiler = alquilerRepository.getAlquilerByCliente_Id(id);
@@ -64,6 +69,7 @@ public class AlquilerController {
 
     @ApiOperation(value = "Post Alquiler", notes = "Devuelve el alquiler que se ha insertado.")
     @ApiResponse(code = 201, message = "Created", response = AlquilerDTO.class)
+    @JsonView(Views.Alquiler.class)
     @PostMapping("/post")
     public ResponseEntity<AlquilerDTO> postAlquiler(@RequestBody AlquilerDTO alquilerDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(alquilerMapper.toDTO(alquilerRepository.insert(alquilerMapper.toModel(alquilerDTO))));
@@ -74,6 +80,7 @@ public class AlquilerController {
             @ApiResponse(code = 204, message = "No Content", response = AlquilerDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralError.class)
     })
+    @JsonView(Views.Alquiler.class)
     @DeleteMapping("/delete")
     public ResponseEntity deleteAlquiler(@RequestParam(name = "id", required = true) UUID id) {
         alquilerRepository.deleteById(id);
@@ -87,6 +94,7 @@ public class AlquilerController {
 
     @ApiOperation(value = "Put Alquiler", notes = "Devuelve el alquiler que ha sido modificado.")
     @ApiResponse(code = 200, message = "OK", response = AlquilerDTO.class)
+    @JsonView(Views.Alquiler.class)
     @PutMapping("/update")
     public ResponseEntity<AlquilerDTO> updateAlquiler(@RequestBody AlquilerDTO alquilerDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(alquilerMapper.toDTO(alquilerRepository.save(alquilerMapper.toModel(alquilerDTO))));
