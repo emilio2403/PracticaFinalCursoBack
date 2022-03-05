@@ -5,6 +5,7 @@ import application.dto.ClienteDTO;
 import application.error.GeneralError;
 import application.mapper.ClienteMapper;
 import application.model.Cliente;
+import application.model.Login;
 import application.repository.ClienteRepository;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,10 +29,53 @@ public class ClienteController {
     private final ClienteRepository clienteRepository;
     private final ClienteMapper mapper;
 
+    @GetMapping("/login")
+    public ResponseEntity login(@RequestParam(required = false, name = "token") Optional<String> token,
+                                @RequestParam(name = "mail") String mail,
+                                @RequestParam(name = "password") String password) {
+        if (token.isPresent()) {
+            return findUser(mail, password, token);
+        } else {
+            return findUser(mail, password, Optional.empty());
+        }
+    }
+
+    private ResponseEntity findUser(String mail, String password, Optional<String> token) {
+        Optional<Cliente> cliente = clienteRepository.findByCorreo(mail);
+        if (cliente.isPresent() &&
+                cliente.get().getPassword().equals(password) &&
+                cliente.get().getCorreo().equals(mail)) {
+            if (token.isEmpty()) {
+                if (cliente.get().getLogin() != null) {
+                    return ResponseEntity.ok(cliente.get().getLogin().getToken());
+                }
+                LocalDateTime fecha = LocalDateTime.now();
+                fecha.plusMonths(1);
+                cliente.get().setLogin(new Login(fecha, UUID.randomUUID()));
+                clienteRepository.save(cliente.get());
+                return ResponseEntity.ok(cliente.get().getLogin().getToken());
+            }
+            if (cliente.get().getLogin().getFecha().isBefore(LocalDateTime.now()) &&
+                    cliente.get().getLogin().getToken().equals(UUID.fromString(token.get()))) {
+                return ResponseEntity.ok().build();
+            }
+            if (cliente.get().getLogin().getFecha().isAfter(LocalDateTime.now())) {
+                LocalDateTime fecha = LocalDateTime.now();
+                fecha.plusMonths(1);
+                cliente.get().getLogin().setFecha(fecha);
+                cliente.get().getLogin().setToken(UUID.randomUUID());
+                clienteRepository.save(cliente.get());
+                return ResponseEntity.ok(cliente.get().getLogin().getToken());
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
+    }
+
     @ApiOperation(value = "Get All Cliente", notes = "Devuelve una lista de clientes.")
     @ApiResponse(code = 200, message = "OK", response = ClienteDTO.class)
     @JsonView(Views.Cliente.class)
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<List<ClienteDTO>> findAll() {
         return ResponseEntity.status(HttpStatus.FOUND).body(mapper.toDTOList(clienteRepository.findAll()));
     }
@@ -41,7 +86,7 @@ public class ClienteController {
             @ApiResponse(code = 400, message = "BAD_REQUEST", response = GeneralError.class)
     })
     @JsonView(Views.Cliente.class)
-    @GetMapping("/{id}")
+    @GetMapping("/id")
     public ResponseEntity findById(@RequestParam(name = "id", required = true) UUID id) {
         Optional<Cliente> cliente = clienteRepository.findById(id);
         if (cliente.isEmpty()) {
@@ -57,7 +102,7 @@ public class ClienteController {
             @ApiResponse(code = 400, message = "BAD_REQUEST", response = GeneralError.class)
     })
     @JsonView(Views.Cliente.class)
-    @GetMapping("/{correo}")
+    @GetMapping("/mail")
     public ResponseEntity getByEmail(@RequestParam(name = "tipo", required = true) String correo) {
         Optional<Cliente> cliente = clienteRepository.findByCorreo(correo);
         if (cliente.isEmpty()) {
@@ -70,7 +115,7 @@ public class ClienteController {
     @ApiOperation(value = "Post Cliente", notes = "Devuelve el cliente que se ha insertado.")
     @ApiResponse(code = 201, message = "Created", response = ClienteDTO.class)
     @JsonView(Views.Cliente.class)
-    @PostMapping("/")
+    @PostMapping("/post")
     public ResponseEntity<ClienteDTO> postClient(@RequestBody ClienteDTO clienteDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDTO(clienteRepository.insert(mapper.toModel(clienteDTO))));
     }
@@ -78,7 +123,7 @@ public class ClienteController {
     @ApiOperation(value = "Put Cliente", notes = "Devuelve el cliente que ha sido modificado.")
     @ApiResponse(code = 200, message = "OK", response = ClienteDTO.class)
     @JsonView(Views.Cliente.class)
-    @PutMapping("/")
+    @PutMapping("/put")
     public ResponseEntity<ClienteDTO> putClient(@RequestBody ClienteDTO clienteDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTO(clienteRepository.save(mapper.toModel(clienteDTO))));
     }
@@ -89,7 +134,7 @@ public class ClienteController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralError.class)
     })
     @JsonView(Views.Cliente.class)
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete")
     public ResponseEntity delete(@RequestParam(name = "id", required = true) UUID id) {
         clienteRepository.deleteById(id);
         Optional<Cliente> cliente = clienteRepository.findById(id);
