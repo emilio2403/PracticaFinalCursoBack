@@ -93,8 +93,11 @@ public class AlquilerControllerTest {
         when(repository.findById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"))).thenReturn(Optional.of(alquiler));
         when(mapper.toDTO(alquiler)).thenReturn(alquilerDTO);
         ResponseEntity<AlquilerDTO> response = controller.getAlquilerById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
+        AlquilerDTO alquilerResponse = response.getBody();
         assertAll(
-                () -> assertEquals(HttpStatus.OK, response.getStatusCode())
+                () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
+                () -> assertEquals(alquilerDTO.getId(), alquilerResponse.getId()),
+                () -> assertEquals(alquilerDTO.getCoste(), alquilerResponse.getCoste())
         );
         verify(repository, times(1)).findById(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"));
         verify(mapper, times(1)).toDTO(alquiler);
