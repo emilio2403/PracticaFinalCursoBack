@@ -32,6 +32,16 @@ public class Infraestructura {
         this.id = UUID.randomUUID();
     }
 
+    // TEST
+    public Infraestructura(UUID id, String tipo, String foto, LocalDateTime apertura, LocalDateTime cierre, String descripcion) {
+        this.id = id;
+        this.tipo = tipo;
+        this.foto = foto;
+        this.apertura = apertura;
+        this.cierre = cierre;
+        this.descripcion = descripcion;
+    }
+
     @Id
     public UUID getId() {
         return id;

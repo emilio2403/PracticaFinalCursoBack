@@ -75,4 +75,26 @@ public class ClienteDTO {
     public void setAlquileres(List<AlquilerDTO> alquileres) {
         this.alquileres = alquileres;
     }
+
+    public ClienteDTO() {
+        this.id = UUID.randomUUID();
+    }
+
+    public ClienteDTO(String nombre, String correo, String password, String foto, List<AlquilerDTO> alquileres) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.password = password;
+        this.foto = foto;
+        this.alquileres = alquileres;
+        this.id = UUID.randomUUID();
+    }
+
+    // TEST
+    public ClienteDTO(UUID id, String nombre, String correo, String password, String foto) {
+        this.id = id;
+        this.nombre = nombre;
+        this.correo = correo;
+        this.password = password;
+        this.foto = foto;
+    }
 }
