@@ -4,19 +4,19 @@ import application.configuration.views.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class AlquilerDTO {
+
     @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
     @ApiModelProperty(value = "Id alquiler", dataType = "UUID", position = 1)
     private UUID id;
     @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
-    @ApiModelProperty(value = "Fecha inicio", dataType = "LocalDateTime", position = 2)
-    private LocalDateTime inicio;
+    @ApiModelProperty(value = "Hora de inicio", dataType = "Integer", position = 2)
+    private int inicio;
     @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
-    @ApiModelProperty(value = "Fecha fin", dataType = "LocalDateTime", position = 3)
-    private LocalDateTime fin;
+    @ApiModelProperty(value = "Hora de fin", dataType = "Integer", position = 3)
+    private int fin;
     @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
     @ApiModelProperty(value = "Coste", dataType = "Double", position = 4)
     private double coste;
@@ -26,6 +26,15 @@ public class AlquilerDTO {
     @JsonView({Views.Infraestructura.class, Views.Alquiler.class})
     @ApiModelProperty(value = "Cliente", dataType = "ClienteDTO", position = 6)
     private ClienteDTO cliente;
+    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @ApiModelProperty(value = "Año", dataType = "Integer", position = 7)
+    private int year;
+    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @ApiModelProperty(value = "Mes", dataType = "Integer", position = 8)
+    private int month;
+    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @ApiModelProperty(value = "Día", dataType = "Integer", position = 9)
+    private int day;
 
     public AlquilerDTO() {
         this.id = UUID.randomUUID();
@@ -51,22 +60,6 @@ public class AlquilerDTO {
         this.id = id;
     }
 
-    public LocalDateTime getInicio() {
-        return inicio;
-    }
-
-    public void setInicio(LocalDateTime inicio) {
-        this.inicio = inicio;
-    }
-
-    public LocalDateTime getFin() {
-        return fin;
-    }
-
-    public void setFin(LocalDateTime fin) {
-        this.fin = fin;
-    }
-
     public double getCoste() {
         return coste;
     }
@@ -89,5 +82,45 @@ public class AlquilerDTO {
 
     public void setCliente(ClienteDTO cliente) {
         this.cliente = cliente;
+    }
+
+    public int getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(int inicio) {
+        this.inicio = inicio;
+    }
+
+    public int getFin() {
+        return fin;
+    }
+
+    public void setFin(int fin) {
+        this.fin = fin;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
     }
 }

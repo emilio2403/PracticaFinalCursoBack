@@ -63,7 +63,7 @@ public class InfraestructuraController {
         if (estructura.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTOList(estructura.get()));
+            return ResponseEntity.ok(mapper.toDTOList(estructura.get()));
         }
     }
 

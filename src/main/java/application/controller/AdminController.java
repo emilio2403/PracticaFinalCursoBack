@@ -40,7 +40,7 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
         } else {
             if (admin.get().getPassword().equals(password)) {
-                return ResponseEntity.ok(admin.get());
+                return ResponseEntity.ok(mapper.toDTO(admin.get()));
             }
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
         }
