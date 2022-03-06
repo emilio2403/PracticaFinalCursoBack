@@ -41,7 +41,7 @@ public class InfraestructuraController {
             @ApiResponse(code = 400, message = "BAD_REQUEST", response = GeneralError.class)
     })
     @JsonView(Views.Infraestructura.class)
-    @GetMapping("/{id}")
+    @GetMapping("/id")
     public ResponseEntity getInfraestructuraById(@RequestParam(name = "id", required = true) UUID id) {
         Optional<Infraestructura> estructura = repository.findById(id);
         if (estructura.isEmpty()) {
@@ -57,7 +57,7 @@ public class InfraestructuraController {
             @ApiResponse(code = 400, message = "BAD_REQUEST", response = GeneralError.class)
     })
     @JsonView(Views.Infraestructura.class)
-    @GetMapping("/{tipo}")
+    @GetMapping("/tipo")
     public ResponseEntity getInfraestructuraByTipo(@RequestParam(name = "tipo", required = true) String tipo) {
         Optional<List<Infraestructura>> estructura = repository.findAllByTipo(tipo);
         if (estructura.isEmpty()) {

@@ -21,7 +21,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -44,15 +43,14 @@ public class InfraestructuraControllerTest {
     @BeforeAll
     void beforeAll() {
         controller = new InfraestructuraController(repository, mapper);
-        infra = new Infraestructura(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"), "tipo_prueba", "foto_uri", LocalDateTime.of(2002,5,26,1,0,0),LocalDateTime.of(2002,5,26,3,0,0),"descripcion");
-        infraDTO = new InfraestructuraDTO(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"), "tipo_prueba", "foto_uri", LocalDateTime.of(2002,5,26,1,0,0),LocalDateTime.of(2002,5,26,3,0,0));
+        infra = new Infraestructura(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"), "tipo_prueba", "foto_uri", LocalDateTime.of(2002, 5, 26, 1, 0, 0), LocalDateTime.of(2002, 5, 26, 3, 0, 0), "descripcion");
+        infraDTO = new InfraestructuraDTO(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"), "tipo_prueba", "foto_uri", LocalDateTime.of(2002, 5, 26, 1, 0, 0), LocalDateTime.of(2002, 5, 26, 3, 0, 0));
         infras = new ArrayList<>();
         infras.add(infra);
         infrasDTO = new ArrayList<>();
         infrasDTO.add(infraDTO);
     }
 
-    // TODO: TERMINAR ESTO, LOLI DEL FUTURO
     @Test
     @Order(1)
     void getAll() {
@@ -139,7 +137,7 @@ public class InfraestructuraControllerTest {
     @Test
     @Order(5)
     void getInfraByTipo() {
-        when(mapper.toDTO(infra)).thenReturn(infraDTO);
+        when(mapper.toDTOList(infras)).thenReturn(infrasDTO);
         when(repository.findAllByTipo("tipo_prueba")).thenReturn(Optional.of(infras));
         ResponseEntity<List<InfraestructuraDTO>> response = controller.getInfraestructuraByTipo("tipo_prueba");
         List<InfraestructuraDTO> responseList = response.getBody();
