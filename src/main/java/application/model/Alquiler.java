@@ -3,7 +3,6 @@ package application.model;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -11,8 +10,11 @@ import java.util.UUID;
 public class Alquiler {
 
     private UUID id;
-    private LocalDateTime inicio;
-    private LocalDateTime fin;
+    private int year;
+    private int month;
+    private int day;
+    private int inicio;
+    private int fin;
     private double coste;
     private Infraestructura infraestructura;
     private Cliente cliente;
@@ -33,20 +35,47 @@ public class Alquiler {
     }
 
     @Basic
-    public LocalDateTime getInicio() {
+    public int getInicio() {
         return inicio;
     }
 
-    public void setInicio(LocalDateTime inicio) {
+    public void setInicio(int inicio) {
         this.inicio = inicio;
     }
 
     @Basic
-    public LocalDateTime getFin() {
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    @Basic
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    @Basic
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    @Basic
+    public int getFin() {
         return fin;
     }
 
-    public void setFin(LocalDateTime fin) {
+    public void setFin(int fin) {
         this.fin = fin;
     }
 

@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,8 +42,8 @@ public class InfraestructuraControllerTest {
     @BeforeAll
     void beforeAll() {
         controller = new InfraestructuraController(repository, mapper);
-        infra = new Infraestructura(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"), "tipo_prueba", "foto_uri", LocalDateTime.of(2002, 5, 26, 1, 0, 0), LocalDateTime.of(2002, 5, 26, 3, 0, 0), "descripcion");
-        infraDTO = new InfraestructuraDTO(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"), "tipo_prueba", "foto_uri", LocalDateTime.of(2002, 5, 26, 1, 0, 0), LocalDateTime.of(2002, 5, 26, 3, 0, 0));
+        infra = new Infraestructura(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"), "tipo_prueba", "foto_uri", 1, 1, "descripcion");
+        infraDTO = new InfraestructuraDTO(UUID.fromString("fec6f825-d3b2-4753-b0f1-ce933b3ba5f6"), "tipo_prueba", "foto_uri", 1, 1);
         infras = new ArrayList<>();
         infras.add(infra);
         infrasDTO = new ArrayList<>();

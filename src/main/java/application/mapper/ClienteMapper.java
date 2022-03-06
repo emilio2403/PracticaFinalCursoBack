@@ -1,8 +1,8 @@
 package application.mapper;
 
 import application.dto.ClienteDTO;
-import lombok.RequiredArgsConstructor;
 import application.model.Cliente;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -15,19 +15,19 @@ public class ClienteMapper {
 
     private final ModelMapper mapper;
 
-    public ClienteDTO toDTO(Cliente cliente){
-        return mapper.map(cliente,ClienteDTO.class);
+    public ClienteDTO toDTO(Cliente cliente) {
+        return mapper.map(cliente, ClienteDTO.class);
     }
 
-    public Cliente toModel(ClienteDTO dto){
+    public Cliente toModel(ClienteDTO dto) {
         return mapper.map(dto, Cliente.class);
     }
 
-    public List<ClienteDTO> toDTOList(List<Cliente> lista){
+    public List<ClienteDTO> toDTOList(List<Cliente> lista) {
         return lista.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public List<Cliente> toModelList(List<ClienteDTO> lista){
+    public List<Cliente> toModelList(List<ClienteDTO> lista) {
         return lista.stream().map(this::toModel).collect(Collectors.toList());
     }
 

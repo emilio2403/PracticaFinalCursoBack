@@ -4,7 +4,6 @@ import application.configuration.views.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,17 +16,47 @@ public class InfraestructuraDTO {
     @ApiModelProperty(value = "Lista alquileres", position = 2)
     private List<AlquilerDTO> alquileres;
     @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
-    @ApiModelProperty(value = "Tipo", dataType = "String", position = 3)
+    @ApiModelProperty(value = "Nombre", dataType = "String", position = 3)
+    private String nombre;
+    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @ApiModelProperty(value = "Tipo", dataType = "String", position = 4)
     private String tipo;
     @JsonView(Views.Infraestructura.class)
-    @ApiModelProperty(value = "Foto", dataType = "String", position = 4)
+    @ApiModelProperty(value = "Foto", dataType = "String", position = 5)
     private String foto;
     @JsonView(Views.Infraestructura.class)
-    @ApiModelProperty(value = "Fecha de apertura", dataType = "LocalDateTime", position = 5)
-    private LocalDateTime apertura;
+    @ApiModelProperty(value = "Hora de apertura", dataType = "Integer", position = 6)
+    private int apertura;
     @JsonView(Views.Infraestructura.class)
-    @ApiModelProperty(value = "Fecha de cierre", dataType = "LocalDateTime", position = 6)
-    private LocalDateTime cierre;
+    @ApiModelProperty(value = "Hora de cierre", dataType = "Integer", position = 7)
+    private int cierre;
+    @JsonView(Views.Infraestructura.class)
+    @ApiModelProperty(value = "Coste por hora", dataType = "Double", position = 8)
+    private double coste;
+
+    public InfraestructuraDTO() {
+        this.id = UUID.randomUUID();
+    }
+
+    public InfraestructuraDTO(List<AlquilerDTO> alquileres, String nombre, String tipo, String foto, int apertura, int cierre, double coste) {
+        this.alquileres = alquileres;
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.foto = foto;
+        this.apertura = apertura;
+        this.cierre = cierre;
+        this.coste = coste;
+        this.id = UUID.randomUUID();
+    }
+
+    // TEST
+    public InfraestructuraDTO(UUID id, String tipo, String foto, int apertura, int cierre) {
+        this.id = id;
+        this.tipo = tipo;
+        this.foto = foto;
+        this.apertura = apertura;
+        this.cierre = cierre;
+    }
 
     public UUID getId() {
         return id;
@@ -61,41 +90,35 @@ public class InfraestructuraDTO {
         this.foto = foto;
     }
 
-    public LocalDateTime getApertura() {
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getApertura() {
         return apertura;
     }
 
-    public void setApertura(LocalDateTime apertura) {
+    public void setApertura(int apertura) {
         this.apertura = apertura;
     }
 
-    public LocalDateTime getCierre() {
+    public int getCierre() {
         return cierre;
     }
 
-    public void setCierre(LocalDateTime cierre) {
+    public void setCierre(int cierre) {
         this.cierre = cierre;
     }
 
-    public InfraestructuraDTO() {
-        this.id = UUID.randomUUID();
+    public double getCoste() {
+        return coste;
     }
 
-    public InfraestructuraDTO(List<AlquilerDTO> alquileres, String tipo, String foto, LocalDateTime apertura, LocalDateTime cierre) {
-        this.id = UUID.randomUUID();
-        this.alquileres = alquileres;
-        this.tipo = tipo;
-        this.foto = foto;
-        this.apertura = apertura;
-        this.cierre = cierre;
-    }
-
-    // TEST
-    public InfraestructuraDTO(UUID id, String tipo, String foto, LocalDateTime apertura, LocalDateTime cierre) {
-        this.id = id;
-        this.tipo = tipo;
-        this.foto = foto;
-        this.apertura = apertura;
-        this.cierre = cierre;
+    public void setCoste(double coste) {
+        this.coste = coste;
     }
 }

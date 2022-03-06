@@ -15,19 +15,19 @@ public class AlquilerMapper {
 
     private final ModelMapper mapper;
 
-    public AlquilerDTO toDTO(Alquiler alquiler){
-        return mapper.map(alquiler,AlquilerDTO.class);
+    public AlquilerDTO toDTO(Alquiler alquiler) {
+        return mapper.map(alquiler, AlquilerDTO.class);
     }
 
-    public Alquiler toModel(AlquilerDTO dto){
-        return mapper.map(dto,Alquiler.class);
+    public Alquiler toModel(AlquilerDTO dto) {
+        return mapper.map(dto, Alquiler.class);
     }
 
-    public List<AlquilerDTO> toDTOList(List<Alquiler> lista){
+    public List<AlquilerDTO> toDTOList(List<Alquiler> lista) {
         return lista.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public List<Alquiler> toModelList(List<AlquilerDTO>lista){
+    public List<Alquiler> toModelList(List<AlquilerDTO> lista) {
         return lista.stream().map(this::toModel).collect(Collectors.toList());
     }
 

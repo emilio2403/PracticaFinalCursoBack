@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 
@@ -32,12 +31,12 @@ public class PracticaFinalCursoBackApplication {
             clienteRepository.deleteAll();
             adminRepository.deleteAll();
 
-            infraestructuraRepository.save(new Infraestructura(new ArrayList<>(), TipoPista.BALONCESTO.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
-            infraestructuraRepository.save(new Infraestructura(new ArrayList<>(), TipoPista.TENIS.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
-            infraestructuraRepository.save(new Infraestructura(new ArrayList<>(), TipoPista.VOLEY.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
-            infraestructuraRepository.save(new Infraestructura(new ArrayList<>(), TipoPista.FUTBOL.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
-            infraestructuraRepository.save(new Infraestructura(new ArrayList<>(), TipoPista.RUGBY.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
-            infraestructuraRepository.save(new Infraestructura(new ArrayList<>(), TipoPista.PADEL.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
+            infraestructuraRepository.save(new Infraestructura(new ArrayList<>(), "Baloncesto1", TipoPista.BALONCESTO.name(), "foto", 9, 22, 10.0, "descripcion"));
+            infraestructuraRepository.save(new Infraestructura(new ArrayList<>(), "Tenis1", TipoPista.TENIS.name(), "foto", 9, 22, 20.0, "descripcion"));
+            infraestructuraRepository.save(new Infraestructura(new ArrayList<>(), "Voley1", TipoPista.VOLEY.name(), "foto", 9, 22, 15.0, "descripcion"));
+            infraestructuraRepository.save(new Infraestructura(new ArrayList<>(), "Futbol1", TipoPista.FUTBOL.name(), "foto", 9, 22, 10.0, "descripcion"));
+            infraestructuraRepository.save(new Infraestructura(new ArrayList<>(), "Rugby1", TipoPista.RUGBY.name(), "foto", 9, 22, 10.0, "descripcion"));
+            infraestructuraRepository.save(new Infraestructura(new ArrayList<>(), "Padel1", TipoPista.PADEL.name(), "foto", 9, 22, 15.0, "descripcion"));
 
             clienteRepository.save(new Cliente("Ansufati", "a", "a", "fotaza", new ArrayList<>()));
             clienteRepository.save(new Cliente("Obama", "obama@gmail.com", "contraseña", "fotaza", new ArrayList<>()));

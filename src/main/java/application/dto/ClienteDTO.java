@@ -1,6 +1,7 @@
 package application.dto;
 
 import application.configuration.views.Views;
+import application.model.Login;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -27,6 +28,31 @@ public class ClienteDTO {
     @JsonView(Views.Cliente.class)
     @ApiModelProperty(value = "Lista de alquileres", dataType = "List<AlquilerDTO>", position = 6)
     private List<AlquilerDTO> alquileres;
+    @JsonView(Views.Cliente.class)
+    @ApiModelProperty(value = "Login", dataType = "List<AlquilerDTO>", position = 6)
+    private Login login;
+
+    public ClienteDTO() {
+        this.id = UUID.randomUUID();
+    }
+
+    public ClienteDTO(String nombre, String correo, String password, String foto, List<AlquilerDTO> alquileres) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.password = password;
+        this.foto = foto;
+        this.alquileres = alquileres;
+        this.id = UUID.randomUUID();
+    }
+
+    // TEST
+    public ClienteDTO(UUID id, String nombre, String correo, String password, String foto) {
+        this.id = id;
+        this.nombre = nombre;
+        this.correo = correo;
+        this.password = password;
+        this.foto = foto;
+    }
 
     public UUID getId() {
         return id;
@@ -76,25 +102,11 @@ public class ClienteDTO {
         this.alquileres = alquileres;
     }
 
-    public ClienteDTO() {
-        this.id = UUID.randomUUID();
+    public Login getLogin() {
+        return login;
     }
 
-    public ClienteDTO(String nombre, String correo, String password, String foto, List<AlquilerDTO> alquileres) {
-        this.nombre = nombre;
-        this.correo = correo;
-        this.password = password;
-        this.foto = foto;
-        this.alquileres = alquileres;
-        this.id = UUID.randomUUID();
-    }
-
-    // TEST
-    public ClienteDTO(UUID id, String nombre, String correo, String password, String foto) {
-        this.id = id;
-        this.nombre = nombre;
-        this.correo = correo;
-        this.password = password;
-        this.foto = foto;
+    public void setLogin(Login login) {
+        this.login = login;
     }
 }

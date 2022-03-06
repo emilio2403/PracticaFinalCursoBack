@@ -47,17 +47,17 @@ public class ClienteController {
                 cliente.get().getCorreo().equals(mail)) {
             if (token.isEmpty()) {
                 if (cliente.get().getLogin() != null) {
-                    return ResponseEntity.ok(cliente.get().getLogin().getToken());
+                    return ResponseEntity.ok(mapper.toDTO(cliente.get()));
                 }
                 LocalDateTime fecha = LocalDateTime.now();
                 fecha.plusMonths(1);
                 cliente.get().setLogin(new Login(fecha, UUID.randomUUID()));
                 clienteRepository.save(cliente.get());
-                return ResponseEntity.ok(cliente.get().getLogin().getToken());
+                return ResponseEntity.ok(mapper.toDTO(cliente.get()));
             }
             if (cliente.get().getLogin().getFecha().isBefore(LocalDateTime.now()) &&
                     cliente.get().getLogin().getToken().equals(UUID.fromString(token.get()))) {
-                return ResponseEntity.ok().build();
+                return ResponseEntity.ok(mapper.toDTO(cliente.get()));
             }
             if (cliente.get().getLogin().getFecha().isAfter(LocalDateTime.now())) {
                 LocalDateTime fecha = LocalDateTime.now();
@@ -65,7 +65,7 @@ public class ClienteController {
                 cliente.get().getLogin().setFecha(fecha);
                 cliente.get().getLogin().setToken(UUID.randomUUID());
                 clienteRepository.save(cliente.get());
-                return ResponseEntity.ok(cliente.get().getLogin().getToken());
+                return ResponseEntity.ok(mapper.toDTO(cliente.get()));
             }
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
         }
@@ -77,7 +77,8 @@ public class ClienteController {
     @JsonView(Views.Cliente.class)
     @GetMapping("/all")
     public ResponseEntity<List<ClienteDTO>> findAll() {
-        return ResponseEntity.status(HttpStatus.FOUND).body(mapper.toDTOList(clienteRepository.findAll()));
+        System.out.println("Hola");
+        return ResponseEntity.ok(mapper.toDTOList(clienteRepository.findAll()));
     }
 
     @ApiOperation(value = "Get Cliente By Id", notes = "Devolverá el cliente en caso de encontrarlo.")
@@ -89,22 +90,6 @@ public class ClienteController {
     @GetMapping("/id")
     public ResponseEntity findById(@RequestParam(name = "id", required = true) UUID id) {
         Optional<Cliente> cliente = clienteRepository.findById(id);
-        if (cliente.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTO(cliente.get()));
-        }
-    }
-
-    @ApiOperation(value = "Get Cliente By Correo", notes = "Devolverá el cliente en caso de encontrarlo.")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = ClienteDTO.class),
-            @ApiResponse(code = 400, message = "BAD_REQUEST", response = GeneralError.class)
-    })
-    @JsonView(Views.Cliente.class)
-    @GetMapping("/mail")
-    public ResponseEntity getByEmail(@RequestParam(name = "tipo", required = true) String correo) {
-        Optional<Cliente> cliente = clienteRepository.findByCorreo(correo);
         if (cliente.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
         } else {

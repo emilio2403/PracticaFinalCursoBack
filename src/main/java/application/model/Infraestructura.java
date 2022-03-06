@@ -6,7 +6,6 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,24 +15,27 @@ public class Infraestructura {
 
     private UUID id;
     private List<Alquiler> alquileres;
+    private String nombre;
     private String tipo;
     private String foto;
-    private LocalDateTime apertura;
-    private LocalDateTime cierre;
+    private int apertura;
+    private int cierre;
+    private double coste;
     private String descripcion;
 
-    public Infraestructura(List<Alquiler> alquileres, String tipo, String foto, LocalDateTime apertura, LocalDateTime cierre, String descripcion) {
+    public Infraestructura(List<Alquiler> alquileres, String nombre, String tipo, String foto, int apertura, int cierre, Double coste, String descripcion) {
         this.alquileres = alquileres;
         this.tipo = tipo;
         this.foto = foto;
         this.apertura = apertura;
         this.cierre = cierre;
         this.descripcion = descripcion;
+        this.coste = coste;
         this.id = UUID.randomUUID();
     }
 
     // TEST
-    public Infraestructura(UUID id, String tipo, String foto, LocalDateTime apertura, LocalDateTime cierre, String descripcion) {
+    public Infraestructura(UUID id, String tipo, String foto, int apertura, int cierre, String descripcion) {
         this.id = id;
         this.tipo = tipo;
         this.foto = foto;
@@ -79,20 +81,29 @@ public class Infraestructura {
     }
 
     @Basic
-    public LocalDateTime getApertura() {
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    @Basic
+    public int getApertura() {
         return apertura;
     }
 
-    public void setApertura(LocalDateTime apertura) {
+    public void setApertura(int apertura) {
         this.apertura = apertura;
     }
 
     @Basic
-    public LocalDateTime getCierre() {
+    public int getCierre() {
         return cierre;
     }
 
-    public void setCierre(LocalDateTime cierre) {
+    public void setCierre(int cierre) {
         this.cierre = cierre;
     }
 
@@ -103,5 +114,14 @@ public class Infraestructura {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    @Basic
+    public double getCoste() {
+        return coste;
+    }
+
+    public void setCoste(double coste) {
+        this.coste = coste;
     }
 }
