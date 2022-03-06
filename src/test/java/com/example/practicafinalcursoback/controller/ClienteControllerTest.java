@@ -20,7 +20,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -28,7 +27,7 @@ import static org.mockito.Mockito.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ClienteControllerTest {
-    // TODO: TERMINAR ESTO, LOLI DEL FUTURO
+
     private List<ClienteDTO> clientesDTO;
     private List<Cliente> clientes;
     @InjectMocks

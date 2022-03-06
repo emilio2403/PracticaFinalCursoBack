@@ -21,12 +21,30 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/admin")
-@CrossOrigin(origins = "http://localhost:7777")
 @RequiredArgsConstructor
 public class AdminController {
 
     private final AdminRepository repository;
     private final AdminMapper mapper;
+
+    @ApiOperation(value = "Login Admin", notes = "Devolverá si el login es válido o no.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralError.class)
+    })
+    @GetMapping("/login")
+    public ResponseEntity login(@RequestParam(name = "mail") String mail,
+                                @RequestParam(name = "password") String password) {
+        Optional<Admin> admin = repository.findAdminByCorreo(mail);
+        if (admin.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
+        } else {
+            if (admin.get().getPassword().equals(password)) {
+                return ResponseEntity.ok(admin.get());
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
+        }
+    }
 
     @ApiOperation(value = "Get All Admin", notes = "Devuelve una lista de administradores.")
     @ApiResponse(code = 200, message = "OK", response = AdminDTO.class)

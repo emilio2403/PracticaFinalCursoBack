@@ -39,7 +39,7 @@ public class PracticaFinalCursoBackApplication {
             infraestructuraRepository.save(new Infraestructura(new ArrayList<>(), TipoPista.RUGBY.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
             infraestructuraRepository.save(new Infraestructura(new ArrayList<>(), TipoPista.PADEL.name(), "foto", LocalDateTime.now(), LocalDateTime.now(), "descripcion"));
 
-            clienteRepository.save(new Cliente("Ansufati", "ansufati@gmail.com", "contraseña", "fotaza", new ArrayList<>()));
+            clienteRepository.save(new Cliente("Ansufati", "a", "a", "fotaza", new ArrayList<>()));
             clienteRepository.save(new Cliente("Obama", "obama@gmail.com", "contraseña", "fotaza", new ArrayList<>()));
             clienteRepository.save(new Cliente("Greta Thunberg", "salvaanimales@gmail.com", "contraseña", "fotaza", new ArrayList<>()));
             clienteRepository.save(new Cliente("Vinicius", "vinicius@gmail.com", "contraseña", "fotaza", new ArrayList<>()));

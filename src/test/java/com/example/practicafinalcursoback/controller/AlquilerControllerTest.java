@@ -67,6 +67,7 @@ public class AlquilerControllerTest {
                 () -> assertEquals(alquileresDTO.get(0).getCoste(), responseList.get(0).getCoste())
         );
         verify(repository, times(1)).findAll();
+        verify(mapper, times(1)).toDTOList(alquileres);
     }
 
     @Test
