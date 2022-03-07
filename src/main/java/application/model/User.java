@@ -1,5 +1,7 @@
 package application.model;
 
+import application.configuration.views.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Basic;
@@ -12,11 +14,17 @@ import java.util.UUID;
 @NoArgsConstructor
 public abstract class User {
 
+    @JsonView({Views.Admin.class, Views.Cliente.class})
     private UUID id;
+    @JsonView({Views.Admin.class, Views.Cliente.class, Views.Cliente.class})
     private String nombre;
+    @JsonView({Views.Admin.class, Views.Cliente.class})
     private String correo;
+    @JsonView({Views.Admin.class, Views.Cliente.class})
     private String password;
+    @JsonView({Views.Admin.class, Views.Cliente.class})
     private String foto;
+    @JsonView({Views.Admin.class, Views.Cliente.class})
     private Login login;
 
     public User(String nombre, String correo, String password, String foto) {

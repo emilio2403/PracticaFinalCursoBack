@@ -1,5 +1,7 @@
 package application.model;
 
+import application.configuration.views.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -16,7 +18,9 @@ public class Alquiler {
     private int inicio;
     private int fin;
     private double coste;
+    @JsonView(Views.Alquiler.class)
     private Infraestructura infraestructura;
+    @JsonView(Views.Alquiler.class)
     private Cliente cliente;
 
     public Alquiler(UUID id, double coste) {
@@ -24,13 +28,12 @@ public class Alquiler {
         this.coste = coste;
     }
 
-
     @Id
     public UUID getId() {
         return id;
     }
 
-    private void setId(UUID id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

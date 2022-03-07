@@ -1,6 +1,7 @@
 package application.model;
 
-import lombok.NoArgsConstructor;
+import application.configuration.views.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -10,10 +11,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@NoArgsConstructor
 public class Infraestructura {
 
+
     private UUID id;
+    @JsonView(Views.Infraestructura.class)
     private List<Alquiler> alquileres;
     private String nombre;
     private String tipo;
@@ -23,15 +25,20 @@ public class Infraestructura {
     private double coste;
     private String descripcion;
 
-    public Infraestructura(List<Alquiler> alquileres, String nombre, String tipo, String foto, int apertura, int cierre, Double coste, String descripcion) {
+    public Infraestructura() {
+        this.id = UUID.randomUUID();
+    }
+
+    public Infraestructura(UUID id, List<Alquiler> alquileres, String nombre, String tipo, String foto, int apertura, int cierre, double coste, String descripcion) {
+        this.id = id;
         this.alquileres = alquileres;
+        this.nombre = nombre;
         this.tipo = tipo;
         this.foto = foto;
         this.apertura = apertura;
         this.cierre = cierre;
-        this.descripcion = descripcion;
         this.coste = coste;
-        this.id = UUID.randomUUID();
+        this.descripcion = descripcion;
     }
 
     // TEST
@@ -49,7 +56,7 @@ public class Infraestructura {
         return id;
     }
 
-    private void setId(UUID id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

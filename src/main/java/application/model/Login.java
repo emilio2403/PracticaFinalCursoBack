@@ -1,5 +1,8 @@
 package application.model;
 
+import application.configuration.views.Views;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.Basic;
 import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
@@ -7,8 +10,9 @@ import java.util.UUID;
 
 @Embeddable
 public class Login {
-
+    @JsonView(Views.Admin.class)
     private LocalDateTime fecha;
+    @JsonView({Views.Cliente.class, Views.Admin.class})
     private UUID token;
 
     public Login() {

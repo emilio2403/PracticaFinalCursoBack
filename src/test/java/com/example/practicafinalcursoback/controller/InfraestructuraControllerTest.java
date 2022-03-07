@@ -80,7 +80,7 @@ public class InfraestructuraControllerTest {
     @Test
     @Order(2)
     void postInfraestructura() {
-        when(repository.insert(infra)).thenReturn(infra);
+        when(repository.save(infra)).thenReturn(infra);
         when(mapper.toModel(infraDTO)).thenReturn(infra);
         when(mapper.toDTO(infra)).thenReturn(infraDTO);
         ResponseEntity<InfraestructuraDTO> response = controller.postInfraestructura(infraDTO);
@@ -96,7 +96,7 @@ public class InfraestructuraControllerTest {
         );
         verify(mapper, times(1)).toModel(infraDTO);
         verify(mapper, times(1)).toDTO(infra);
-        verify(repository, times(1)).insert(infra);
+        verify(repository, times(1)).save(infra);
     }
 
     @Test

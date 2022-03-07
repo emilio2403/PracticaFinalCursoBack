@@ -59,7 +59,7 @@ public class ClienteControllerTest {
         List<ClienteDTO> responseList = response.getBody();
         assertAll(
                 () -> assertTrue(responseList.size() > 0),
-                () -> assertEquals(response.getStatusCode(), HttpStatus.FOUND),
+                () -> assertEquals(response.getStatusCode(), HttpStatus.OK),
                 () -> assertEquals(clientes.size(), responseList.size()),
                 () -> assertEquals(clientesDTO.size(), responseList.size()),
                 () -> assertEquals(clientes.get(0).getId(), responseList.get(0).getId()),

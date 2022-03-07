@@ -57,7 +57,7 @@ public class AlquilerController {
             @ApiResponse(code = 400, message = "BAD_REQUEST", response = GeneralError.class)
     })
     @JsonView(Views.Alquiler.class)
-    @GetMapping("/alquiler")
+    @GetMapping("/cliente")
     public ResponseEntity getAlquilerByClienteId(@RequestParam(name = "id", required = true) UUID id) {
         Optional<Alquiler> alquiler = alquilerRepository.getAlquilerByCliente_Id(id);
         if (alquiler.isEmpty()) {
