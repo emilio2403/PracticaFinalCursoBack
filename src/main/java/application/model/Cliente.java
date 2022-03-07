@@ -1,5 +1,7 @@
 package application.model;
 
+import application.configuration.views.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
@@ -12,10 +14,11 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Cliente extends User {
 
+    @JsonView({Views.Admin.class, Views.Cliente.class})
     private List<Alquiler> alquileres;
 
-    public Cliente(String nombre, String correo, String password, String foto, List<Alquiler> alquileres) {
-        super(nombre, correo, password, foto);
+    public Cliente(UUID id, String nombre, String correo, String password, String foto, List<Alquiler> alquileres) {
+        super(id, nombre, correo, password, foto);
         this.alquileres = alquileres;
     }
 

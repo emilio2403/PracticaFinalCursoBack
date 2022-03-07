@@ -8,36 +8,35 @@ import java.util.UUID;
 
 public class AlquilerDTO {
 
-    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @JsonView(Views.Alquiler.class)
     @ApiModelProperty(value = "Id alquiler", dataType = "UUID", position = 1)
     private UUID id;
-    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @JsonView(Views.Alquiler.class)
     @ApiModelProperty(value = "Hora de inicio", dataType = "Integer", position = 2)
     private int inicio;
-    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @JsonView(Views.Alquiler.class)
     @ApiModelProperty(value = "Hora de fin", dataType = "Integer", position = 3)
     private int fin;
-    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @JsonView(Views.Alquiler.class)
     @ApiModelProperty(value = "Coste", dataType = "Double", position = 4)
     private double coste;
-    @JsonView({Views.Alquiler.class, Views.Cliente.class})
+    @JsonView(Views.Alquiler.class)
     @ApiModelProperty(value = "Infraestructura", dataType = "InfraestructuraDTO", position = 5)
     private InfraestructuraDTO infraestructura;
-    @JsonView({Views.Infraestructura.class, Views.Alquiler.class})
+    @JsonView(Views.Alquiler.class)
     @ApiModelProperty(value = "Cliente", dataType = "ClienteDTO", position = 6)
     private ClienteDTO cliente;
-    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @JsonView(Views.Alquiler.class)
     @ApiModelProperty(value = "Año", dataType = "Integer", position = 7)
     private int year;
-    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @JsonView(Views.Alquiler.class)
     @ApiModelProperty(value = "Mes", dataType = "Integer", position = 8)
     private int month;
-    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @JsonView(Views.Alquiler.class)
     @ApiModelProperty(value = "Día", dataType = "Integer", position = 9)
     private int day;
 
     public AlquilerDTO() {
-        this.id = UUID.randomUUID();
     }
 
     public AlquilerDTO(double coste) {

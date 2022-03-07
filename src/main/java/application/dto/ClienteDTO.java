@@ -10,10 +10,10 @@ import java.util.UUID;
 
 public class ClienteDTO {
 
-    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @JsonView(Views.Cliente.class)
     @ApiModelProperty(value = "Id cliente", dataType = "UUID", position = 1)
     private UUID id;
-    @JsonView({Views.Infraestructura.class, Views.Alquiler.class, Views.Cliente.class})
+    @JsonView(Views.Cliente.class)
     @ApiModelProperty(value = "Nombre", dataType = "String", position = 2)
     private String nombre;
     @JsonView(Views.Cliente.class)
@@ -33,7 +33,7 @@ public class ClienteDTO {
     private Login login;
 
     public ClienteDTO() {
-        this.id = UUID.randomUUID();
+        
     }
 
     public ClienteDTO(String nombre, String correo, String password, String foto, List<AlquilerDTO> alquileres) {

@@ -77,7 +77,6 @@ public class ClienteController {
     @JsonView(Views.Cliente.class)
     @GetMapping("/all")
     public ResponseEntity<List<ClienteDTO>> findAll() {
-        System.out.println("Hola");
         return ResponseEntity.ok(mapper.toDTOList(clienteRepository.findAll()));
     }
 
@@ -110,6 +109,7 @@ public class ClienteController {
     @JsonView(Views.Cliente.class)
     @PutMapping("/put")
     public ResponseEntity<ClienteDTO> putClient(@RequestBody ClienteDTO clienteDTO) {
+        System.out.println("hola");
         return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTO(clienteRepository.save(mapper.toModel(clienteDTO))));
     }
 

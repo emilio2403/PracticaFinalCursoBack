@@ -4,6 +4,7 @@ import application.configuration.views.Views;
 import application.dto.InfraestructuraDTO;
 import application.error.GeneralError;
 import application.mapper.InfraestructuraMapper;
+import application.model.Alquiler;
 import application.model.Infraestructura;
 import application.repository.InfraestructuraRepository;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -15,9 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/infraestructura")
@@ -29,7 +32,6 @@ public class InfraestructuraController {
 
     @ApiOperation(value = "Get All Infraestructuras", notes = "Devuelve una lista de infraestructuras.")
     @ApiResponse(code = 200, message = "OK", response = InfraestructuraDTO.class)
-    @JsonView(Views.Infraestructura.class)
     @GetMapping("/all")
     public ResponseEntity<List<InfraestructuraDTO>> getAllInfraestructura() {
         return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTOList(repository.findAll()));
@@ -71,8 +73,8 @@ public class InfraestructuraController {
     @ApiResponse(code = 201, message = "Created", response = InfraestructuraDTO.class)
     @JsonView(Views.Infraestructura.class)
     @PostMapping("/post")
-    public ResponseEntity postInfraestructura(@RequestBody InfraestructuraDTO infraestructura) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDTO(repository.insert(mapper.toModel(infraestructura))));
+    public ResponseEntity<InfraestructuraDTO> postInfraestructura(@RequestBody InfraestructuraDTO infraestructura) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDTO(repository.save(mapper.toModel(infraestructura))));
     }
 
     @ApiOperation(value = "Delete Infraestructura", notes = "Devolverá una respuesta sin cuerpo.")
@@ -86,7 +88,7 @@ public class InfraestructuraController {
         repository.deleteById(id);
         Optional<Infraestructura> estructura = repository.findById(id);
         if (estructura.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
         }
@@ -98,5 +100,34 @@ public class InfraestructuraController {
     @PutMapping("/update")
     public ResponseEntity<InfraestructuraDTO> updateInfaestructura(@RequestBody InfraestructuraDTO infraestructura) {
         return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTO(repository.save(mapper.toModel(infraestructura))));
+    }
+
+    @GetMapping("/libres")
+    public ResponseEntity getHorasLibres(@RequestParam(name = "id") UUID id,
+                                         @RequestParam(name = "year") Integer year,
+                                         @RequestParam(name = "month") Integer month,
+                                         @RequestParam(name = "day") Integer day) {
+        Optional<Infraestructura> infraestructura = repository.findById(id);
+        if (infraestructura.isPresent()) {
+            List<Alquiler> alquileresDia = infraestructura.get().getAlquileres().stream().filter((v) ->
+                    v.getDay() == day && v.getMonth() == month && v.getYear() == year).collect(Collectors.toList());
+            List<Integer> horas = new ArrayList();
+            for (int i = infraestructura.get().getApertura(); i < infraestructura.get().getCierre(); i++) {
+                boolean existe = false;
+                int cont = 0;
+                while (cont < alquileresDia.size() && !existe) {
+                    if (alquileresDia.get(cont).getInicio() == i) {
+                        existe = true;
+                    }
+                    cont++;
+                }
+                if (!existe) {
+                    horas.add(i);
+                }
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(horas);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
+        }
     }
 }
