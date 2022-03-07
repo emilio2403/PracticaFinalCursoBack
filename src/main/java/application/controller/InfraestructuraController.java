@@ -58,7 +58,6 @@ public class InfraestructuraController {
             @ApiResponse(code = 200, message = "OK", response = InfraestructuraDTO.class),
             @ApiResponse(code = 400, message = "BAD_REQUEST", response = GeneralError.class)
     })
-    @JsonView(Views.Infraestructura.class)
     @GetMapping("/tipo")
     public ResponseEntity getInfraestructuraByTipo(@RequestParam(name = "tipo", required = true) String tipo) {
         Optional<List<Infraestructura>> estructura = repository.findAllByTipo(tipo);
@@ -88,7 +87,7 @@ public class InfraestructuraController {
         repository.deleteById(id);
         Optional<Infraestructura> estructura = repository.findById(id);
         if (estructura.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
+            return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GeneralError());
         }
@@ -102,6 +101,11 @@ public class InfraestructuraController {
         return ResponseEntity.status(HttpStatus.OK).body(mapper.toDTO(repository.save(mapper.toModel(infraestructura))));
     }
 
+    @ApiOperation(value = "Get horas libres", notes = "Devuelve las horas libres de una dia y de una pista.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = InfraestructuraDTO.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralError.class)
+    })
     @GetMapping("/libres")
     public ResponseEntity getHorasLibres(@RequestParam(name = "id") UUID id,
                                          @RequestParam(name = "year") Integer year,
